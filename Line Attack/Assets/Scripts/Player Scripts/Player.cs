@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
 			{
 				if (hit.collider.GetComponent<UnitStamp>() != true)
 				{
-					Vector3 placePos = new Vector3((int)hit.point.x + 0.5f, hit.point.y + 0.5f, (int)hit.point.z - 0.5f);
+					Vector3 placePos = new Vector3((int)hit.point.x + 0.5f, hit.point.y, (int)hit.point.z - 0.5f);
 					currentStampPrefab.transform.position = placePos;
 
 					if (Input.GetMouseButtonDown(0))
