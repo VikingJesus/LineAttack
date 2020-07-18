@@ -719,7 +719,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 31c1cf800fbb6984682ffe910d1704e2,
         type: 3}
       propertyPath: m_Name
-      value: m_OneHandedSword
+      value: OneHandedSword
       objectReference: {fileID: 0}
     - target: {fileID: 4026591310010524451, guid: 31c1cf800fbb6984682ffe910d1704e2,
         type: 3}
@@ -739,12 +739,12 @@ PrefabInstance:
     - target: {fileID: 5637546372668232442, guid: 31c1cf800fbb6984682ffe910d1704e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.298
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5637546372668232442, guid: 31c1cf800fbb6984682ffe910d1704e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.688
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5637546372668232442, guid: 31c1cf800fbb6984682ffe910d1704e2,
         type: 3}
