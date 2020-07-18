@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
 	[Header("Generic Properties")]
 
 	[SerializeField] int team;
-    [SerializeField] WaveManager owningWave;
+    [SerializeField] WaveManager waveManager;
     [SerializeField] float health;
     [SerializeField] float awarenessRange;
     [SerializeField] float rotationSpeed;
@@ -41,9 +41,10 @@ public class Unit : MonoBehaviour
 		StopCoroutine(FindClosestEnemy());
 	}
 
-	public virtual void Setup(int _team)
+	public virtual void Setup(int _team, WaveManager _waveManager)
 	{
 		team = _team;
+		waveManager = _waveManager;
 
 		agent = GetComponent<NavMeshAgent>();
 
@@ -59,6 +60,8 @@ public class Unit : MonoBehaviour
 	public virtual void SetTarget(Unit _target)
 	{
 		target = _target;
+		agent.SetDestination(target.transform.position);
+
 		ChangeUnitState(UnitState.Attacking);
 	}
 
@@ -67,6 +70,7 @@ public class Unit : MonoBehaviour
 		agent.destination = dest;
 		ChangeUnitState(UnitState.WalkingTo);
 	}
+
 
 	public IEnumerator FindClosestEnemy()
 	{
@@ -119,13 +123,14 @@ public class Unit : MonoBehaviour
 
 				break;
 			case UnitState.Marching:
-
+				transform.parent = waveManager.transform;
 				break;
 			case UnitState.WalkingTo:
-
+				agent.enabled = true;
+				transform.parent = null;
 				break;
 			case UnitState.Attacking:
-				agent.SetDestination(target.transform.position);
+				agent.enabled = true;
 				transform.parent = null;
 				break;
 		}

@@ -13,12 +13,17 @@ public class WaveManager : MonoBehaviour
 		FormationInfo f = new FormationInfo(_u, _off);
 		formation.Add(f);
 
-		_u.Setup(_team);
+		_u.Setup(_team, this);
 	}
 
 	public void SendWave()
-	{ 
-		
+	{
+		for (int i = 0; i < formation.Count; i++)
+		{
+			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 10);
+		}
+
+		transform.position += Vector3.forward * 10;
 	}
 
 }
