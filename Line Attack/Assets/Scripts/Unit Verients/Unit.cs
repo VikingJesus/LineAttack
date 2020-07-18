@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,6 +12,7 @@ public class Unit : MonoBehaviour
 	[Header("Generic Properties")]
 
 	[SerializeField] int team;
+	[SerializeField] int formationIndex;
     [SerializeField] WaveManager waveManager;
     [SerializeField] float health;
     [SerializeField] float awarenessRange;
@@ -30,31 +32,24 @@ public class Unit : MonoBehaviour
 	[SerializeField] float findDelay = 0.25f;
 	[SerializeField] bool lookingForTarget = false;
 	[SerializeField] Unit target;
-
-	private void OnEnable()
+	
+	public virtual int GetTeam()
 	{
-		StartCoroutine(FindClosestEnemy());
+		return team;
 	}
 
-	private void OnDisable()
-	{
-		StopCoroutine(FindClosestEnemy());
-	}
+	public virtual int GetFormationID() { return formationIndex; }
 
-	public virtual void Setup(int _team, WaveManager _waveManager)
+	public virtual void Setup(int _team, int _forIndex, WaveManager _waveManager)
 	{
 		team = _team;
 		waveManager = _waveManager;
+		formationIndex = _forIndex;
 
 		agent = GetComponent<NavMeshAgent>();
 
 		agent.speed = movementSpeed;
-		agent.stoppingDistance = attackRange;
-	}
-
-	public virtual int GetTeam()
-	{
-		return team;
+		agent.stoppingDistance = 0.1f;
 	}
 
 	public virtual void SetTarget(Unit _target)
@@ -70,7 +65,6 @@ public class Unit : MonoBehaviour
 		agent.destination = dest;
 		ChangeUnitState(UnitState.WalkingTo);
 	}
-
 
 	public IEnumerator FindClosestEnemy()
 	{
@@ -120,7 +114,8 @@ public class Unit : MonoBehaviour
 		switch (currentState)
 		{
 			case UnitState.Idle:
-
+				agent.enabled = false;
+				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 			case UnitState.Marching:
 				transform.parent = waveManager.transform;
@@ -136,6 +131,26 @@ public class Unit : MonoBehaviour
 		}
 	}
 
+	public void Update()
+	{
+		if (currentState == UnitState.WalkingTo)
+		{
+			float dist = agent.remainingDistance;
 
+			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+			{
+				ChangeUnitState(UnitState.Idle);
+			}
+		}
+	}
 
+	private void OnEnable()
+	{
+		StartCoroutine(FindClosestEnemy());
+	}
+
+	private void OnDisable()
+	{
+		StopCoroutine(FindClosestEnemy());
+	}
 }
