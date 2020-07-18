@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2624555596266472700}
   - component: {fileID: 2624555596266473219}
   m_Layer: 0
-  m_Name: WaveManager
+  m_Name: p_WaveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cbd60fb614156428e227265f03d080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveMangerState: 0
+  waveNumber: 0
+  movementSpeed: 0.05
+  formation: []
+  activeUnitAgent: []
+  startingPos: {x: 0, y: 0, z: 0}
+  endPos: {x: 0, y: 0, z: 53}
+  fraction: 0

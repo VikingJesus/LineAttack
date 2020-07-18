@@ -20,6 +20,8 @@ public class Unit : MonoBehaviour
     [SerializeField] float stoppingDistance;
     [SerializeField] float unitcost;
 
+	[SerializeField] float stoppingDist = 0.5f;
+
 	[Header("Attack State Properties")]
 	[SerializeField] NavMeshAgent agent;
     [SerializeField] LayerMask awarenessLayer;
@@ -49,7 +51,7 @@ public class Unit : MonoBehaviour
 		agent = GetComponent<NavMeshAgent>();
 
 		agent.speed = movementSpeed;
-		agent.stoppingDistance = 0.1f;
+		agent.stoppingDistance = stoppingDist;
 	}
 
 	public virtual void SetTarget(Unit _target)

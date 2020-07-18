@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+	public enum WaveMangerState {Idle, Moving}
+	public WaveMangerState waveMangerState;
+
 	[SerializeField] private int waveNumber;
+	[SerializeField] float movementSpeed = 12f;
 	[SerializeField] private List<FormationInfo> formation = new List<FormationInfo>();
 	[SerializeField] private List<Unit> activeUnitAgent = new List<Unit>();
 
+	[SerializeField] Vector3 startingPos;
+	[SerializeField] Vector3 endPos;
+
+	[SerializeField] private float fraction = 0;
 	public void AddToActiveUnitAgent(Unit u) { activeUnitAgent.Add(u); }
 	
 	public void AddUnitToWave(Unit _u, Vector3 _off, int _team)
@@ -18,11 +26,36 @@ public class WaveManager : MonoBehaviour
 		_u.Setup(_team, formation.Count - 1, this);
 	}
 
+	public virtual void ChangeWaveManagerState(WaveMangerState newState)
+	{
+		waveMangerState = newState;
+
+		switch (waveMangerState)
+		{
+			case WaveMangerState.Idle:
+
+				break;
+			case WaveMangerState.Moving:
+				startingPos = transform.position;
+				break;
+		}
+	}
+
+	public void Update()
+	{
+		if (waveMangerState == WaveMangerState.Moving)
+		{
+			Debug.Log("fraction");
+			fraction += movementSpeed * Time.deltaTime;
+			transform.position = Vector3.Lerp(startingPos, endPos, fraction);
+		}
+	}
+
 	public void SendWave()
 	{
 		for (int i = 0; i < formation.Count; i++)
 		{
-			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 10);
+			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 15);
 		}
 
 		transform.position += Vector3.forward * 15;
@@ -34,8 +67,20 @@ public class WaveManager : MonoBehaviour
 	{
 		for (int i = 0; i < activeUnitAgent.Count; i++)
 		{
-			activeUnitAgent[i].SetMoveTo(transform.position + formation[activeUnitAgent[i].GetFormationID()].localOfSet);
+			activeUnitAgent[i].SetMoveTo(formation[activeUnitAgent[i].GetFormationID()].localOfSet + transform.position);
 		}
+
+		StartCoroutine(WaitToBeginWave());
+	}
+
+	public IEnumerator WaitToBeginWave()
+	{
+		while (activeUnitAgent.Count > 0)
+		{
+			yield return new WaitForSeconds(0.25f);
+		}
+
+		ChangeWaveManagerState(WaveMangerState.Moving);
 	}
 
 	public void SnapToPointAndReperent(int fi)
@@ -44,8 +89,6 @@ public class WaveManager : MonoBehaviour
 		formation[fi].unit.transform.localPosition = formation[fi].localOfSet;
 		formation[fi].unit.transform.rotation = Quaternion.identity;
 	}
-
-
 }
 
 [System.Serializable]
