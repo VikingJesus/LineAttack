@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f910a13cd4fb51429c01d262d4360ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedUnit: {fileID: 6510498553161495640, guid: 688044c5fc9e0c548bf44b9b0be7482f,
+  attachedUnit: {fileID: 4171373066500741869, guid: 7ce5bcd4027eeb7498350fc5146c0a13,
     type: 3}
   unitCost: 200
   gridCost: 1

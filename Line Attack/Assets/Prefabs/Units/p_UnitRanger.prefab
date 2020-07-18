@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   team: 0
+  formationIndex: 0
   waveManager: {fileID: 0}
   health: 0
   awarenessRange: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   attackRange: 1
-  movementSpeed: 8
+  movementSpeed: 2
   attackRate: 1
   dammageAmount: 1
   findDelay: 0.25
