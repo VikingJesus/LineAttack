@@ -168,6 +168,7 @@ public class Player : MonoBehaviour
 		activeStamps.Remove(currentlySelectedStamp);
 		currentCurrency += currentlySelectedStamp.GetComponent<UnitStamp>().GetUnitCost();
 		Destroy(currentlySelectedStamp.gameObject);
+
 		ClearSelectedStamp();
 	}
 

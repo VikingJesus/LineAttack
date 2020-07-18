@@ -25,7 +25,7 @@ public class WaveManager : MonoBehaviour
 			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 10);
 		}
 
-		transform.position += Vector3.forward * 10;
+		transform.position += Vector3.forward * 15;
 
 		Invoke("RecallAllUnitsToPositions", 0.5f);
 	}
@@ -36,6 +36,13 @@ public class WaveManager : MonoBehaviour
 		{
 			activeUnitAgent[i].SetMoveTo(transform.position + formation[activeUnitAgent[i].GetFormationID()].localOfSet);
 		}
+	}
+
+	public void SnapToPointAndReperent(int fi)
+	{
+		formation[fi].unit.ChangeUnitState(Unit.UnitState.Marching);
+		formation[fi].unit.transform.localPosition = formation[fi].localOfSet;
+		formation[fi].unit.transform.rotation = Quaternion.identity;
 	}
 
 

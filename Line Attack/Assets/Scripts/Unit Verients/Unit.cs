@@ -9,9 +9,6 @@ public class Unit : MonoBehaviour
 	public enum UnitState { Idle, Marching, WalkingTo, Attacking }
 	public UnitState currentState;
 
-	delegate void CallOnReachedDestination();
-	CallOnReachedDestination callOnReachedDestination;
-
 	[Header("Generic Properties")]
 
 	[SerializeField] int team;
@@ -69,14 +66,6 @@ public class Unit : MonoBehaviour
 		ChangeUnitState(UnitState.WalkingTo);
 	}
 
-	public virtual void SetMoveTo(Vector3 dest, int t)
-	{
-		agent.destination = dest;
-	//	callOnReachedDestination += del;
-		ChangeUnitState(UnitState.WalkingTo);
-	}
-
-
 	public IEnumerator FindClosestEnemy()
 	{
 		Collider[] enemies;
@@ -125,7 +114,8 @@ public class Unit : MonoBehaviour
 		switch (currentState)
 		{
 			case UnitState.Idle:
-
+				agent.enabled = false;
+				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 			case UnitState.Marching:
 				transform.parent = waveManager.transform;
@@ -149,11 +139,7 @@ public class Unit : MonoBehaviour
 
 			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
 			{
-				if (callOnReachedDestination != null)
-				{
-					callOnReachedDestination();
-					callOnReachedDestination = null;
-				}
+				ChangeUnitState(UnitState.Idle);
 			}
 		}
 	}
