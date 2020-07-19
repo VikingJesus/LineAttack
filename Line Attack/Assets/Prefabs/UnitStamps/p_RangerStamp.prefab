@@ -200,7 +200,7 @@ Animator:
   m_GameObject: {fileID: 6687669185450689541}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cab8be5ad73ce9c4c80dcb8b85a98373, type: 2}
+  m_Controller: {fileID: 9100000, guid: 57d81fd84c98b1a439bb74452e79d9fa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -373,7 +373,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 95320fbd362c3cf43b2dbb877ca64c4c,
         type: 3}
       propertyPath: m_Name
-      value: m_Ranger
+      value: Body
       objectReference: {fileID: 0}
     - target: {fileID: 671795397159275370, guid: 95320fbd362c3cf43b2dbb877ca64c4c,
         type: 3}
