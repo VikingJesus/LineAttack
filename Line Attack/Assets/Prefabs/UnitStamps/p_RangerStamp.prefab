@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 6687669185450689561}
   - component: {fileID: 6687669185450689562}
   - component: {fileID: -436848131143894578}
+  - component: {fileID: 8086294731246341790}
   m_Layer: 9
   m_Name: p_RangerStamp
   m_TagString: Untagged
@@ -189,6 +190,25 @@ MonoBehaviour:
   gridCost: 1
   gridCostGFX: {fileID: 5627144389655171465}
   gridCostGFXIsColidingwith: []
+--- !u!95 &8086294731246341790
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687669185450689541}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cab8be5ad73ce9c4c80dcb8b85a98373, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &441830626365056823
 PrefabInstance:
   m_ObjectHideFlags: 0

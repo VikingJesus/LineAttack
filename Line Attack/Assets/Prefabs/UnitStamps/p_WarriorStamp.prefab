@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 4837016623589962046}
   - component: {fileID: 541614315733176570}
   m_Layer: 0
-  m_Name: Right Eye
+  m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 6687669185450689561}
   - component: {fileID: 6687669185450689562}
   - component: {fileID: -4592377532888511502}
+  - component: {fileID: 6925214552678892477}
   m_Layer: 9
   m_Name: p_WarriorStamp
   m_TagString: Untagged
@@ -347,6 +348,25 @@ MonoBehaviour:
   gridCost: 1
   gridCostGFX: {fileID: 6525570551484172891}
   gridCostGFXIsColidingwith: []
+--- !u!95 &6925214552678892477
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6687669185450689541}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cab8be5ad73ce9c4c80dcb8b85a98373, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7787535321156202819
 GameObject:
   m_ObjectHideFlags: 0
