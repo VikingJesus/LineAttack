@@ -13,15 +13,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  team: 0
   formationIndex: 0
   waveManager: {fileID: 0}
+  team: 0
   health: 10
   awarenessRange: 5
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 5
-  agent: {fileID: 7647576277209912609}
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -30,8 +29,7 @@ MonoBehaviour:
   attackRate: 1
   dammageAmount: 1
   findDelay: 0.25
-  lookingForTarget: 0
-  target: {fileID: 0}
+  attacking: 0
 --- !u!1 &1537511966422577127
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,17 +639,17 @@ PrefabInstance:
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6.979522
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.1578112
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
@@ -731,12 +729,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 388f8e83307e26f4da8d6ead5c5b9917, type: 3}
---- !u!195 &7647576277209912609 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
-    type: 3}
-  m_PrefabInstance: {fileID: 103029684965191910}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &721150410608044104 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 823035621890119854, guid: 388f8e83307e26f4da8d6ead5c5b9917,
