@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6197804421755114319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.206625, y: -0.97595406, z: 152.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abdb7c1626b2d8d4bbe9ff78f494dbab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
+  team: 2
   currentPlayerState: 0
   playerBases:
   - {fileID: 0}
@@ -51,16 +51,14 @@ MonoBehaviour:
   - {fileID: 0}
   waveMangerPrefab: {fileID: 2624555596266473219, guid: 4f33adb252fbce64e818d8139640ba95,
     type: 3}
-  currentWaveManagerObject: {fileID: 0}
   waveMangerSpawnPoint: {fileID: 0}
   forceTarget: {fileID: 0}
   stampHolder: {fileID: 0}
-  activeStamps: []
   forward: {x: 0, y: 0, z: -1}
   currentCurrency: 1000
   prefFeild: {fileID: 0}
-  testStampPrefab: {fileID: 2140143653090031662, guid: 56aaa50beb0b7e84b8e6eeed4a29bb5b,
-    type: 3}
-  bounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+  testStampPrefabs:
+  - {fileID: 7005100744723399485, guid: 2c7ddc7016d3c6e42bf30d8462dc924f, type: 3}
+  - {fileID: 2140143653090031662, guid: 56aaa50beb0b7e84b8e6eeed4a29bb5b, type: 3}
+  - {fileID: 3508163970409758828, guid: e807d82c5b356364392075122d3640bb, type: 3}
+  spawnAmountPerWave: 8

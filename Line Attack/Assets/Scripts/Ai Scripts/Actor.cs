@@ -12,12 +12,12 @@ public class Actor : MonoBehaviour
 
 	[Header("Wave Veribles")]
 	[SerializeField] protected WaveManager waveMangerPrefab;
-	[SerializeField] protected WaveManager currentWaveManagerObject;
+	protected WaveManager currentWaveManagerObject;
 	[SerializeField] protected Transform waveMangerSpawnPoint;
 
 	[SerializeField] protected ForceTarget forceTarget;
 	[SerializeField] protected Transform stampHolder;
-	[SerializeField] protected List<UnitStamp> activeStamps = new List<UnitStamp>();
+	protected List<UnitStamp> activeStamps = new List<UnitStamp>();
 
 
 	[Header("Player Stats")]

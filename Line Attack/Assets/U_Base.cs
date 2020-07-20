@@ -24,6 +24,8 @@ public class U_Base : Unit
 
 			case UnitState.Dead:
 				owner.LostBase(this);
+				Destroy(gameObject);
+
 				//SpawnDeath Effect Here
 				break;
 		}

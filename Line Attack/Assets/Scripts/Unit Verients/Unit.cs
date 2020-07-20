@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour
     [SerializeField] protected float rotationSpeed;
 	[SerializeField] protected float stoppingDist = 0.4f;
 	[SerializeField] protected float unitcost;
+	[SerializeField] protected ForceTarget forceTarget;
 
 	[Space]
 	[Header("Attack State Properties")]
@@ -95,7 +96,7 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	public void ForceTarget(Unit _target)
+	public void ForceTarget(Unit _target, ForceTarget _forceTarget)
 	{
 		if (_target != null)
 		{
@@ -136,10 +137,18 @@ public class Unit : MonoBehaviour
 
 	public IEnumerator FindClosestEnemy()
 	{
+		yield return new WaitForSeconds(findDelay);
+
 		while (gameObject.activeSelf)
 		{
 			yield return new WaitForSeconds(findDelay);
-			FindClosedEnemyCall();
+
+			if (currentState != UnitState.Dead)
+			{
+				FindClosedEnemyCall();
+			}
+			else
+				StopCoroutine(FindClosestEnemy());
 		}
 	}
 
@@ -256,48 +265,61 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	public void Update()
+	public IEnumerator ControlledUpdate()
 	{
-		if (currentState == UnitState.WalkingTo)
+		while (gameObject.activeSelf)
 		{
-			if (agent.isOnNavMesh)
+			yield return new WaitForSeconds(findDelay/2);
+
+			if (currentState != UnitState.Marching)
 			{
-				float dist = agent.remainingDistance;
-
-				if (agent.remainingDistance <= 0.5f)
+				if (currentState == UnitState.WalkingTo)
 				{
-					ChangeUnitState(UnitState.Idle);
+					if (agent.isOnNavMesh)
+					{
+						if (agent.remainingDistance <= 0.5f)
+						{
+							ChangeUnitState(UnitState.Idle);
+						}
+					}
 				}
-			}
-		}
 
-		if (currentState == UnitState.Attacking)
-		{
-			if (target != null)
-			{
-				//TODO EnterDraw anim.
-				//Wait till its done.
-				transform.LookAt(target.transform);
+				if (currentState == UnitState.Attacking)
+				{
+					if (target != null)
+					{
+						//TODO EnterDraw anim.
+						//Wait till its done.
+						transform.LookAt(target.transform);
 
-				if (Vector3.Distance(target.transform.position, transform.position) > attackRange +.2f)
-				{
-					agent.SetDestination(target.transform.position);
-				}
-				else
-				{
-					agent.isStopped = true;
-					//Is close enough to attck, ATTACK
-					if (attacking == false)
-						StartCoroutine(AttackRate());
-				}
-			}
-			else
-			{
-				FindClosedEnemyCall();
+						if (Vector3.Distance(target.transform.position, transform.position) > attackRange + .2f)
+						{
+							agent.SetDestination(target.transform.position);
+						}
+						else
+						{
+							agent.isStopped = true;
+							//Is close enough to attck, ATTACK
+							if (attacking == false)
+								StartCoroutine(AttackRate());
+						}
+					}
+					else
+					{
+						if (forceTarget == null)
+						{
+							FindClosedEnemyCall();
 
-				if (target == null)
-				{
-					SendBackToFormation();
+							if (target == null)
+							{
+								SendBackToFormation();
+							}
+						}
+						else
+						{
+							forceTarget.ForceTargetToClosestTarget(this);
+						}
+					}
 				}
 			}
 		}

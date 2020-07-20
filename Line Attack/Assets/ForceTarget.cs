@@ -59,7 +59,7 @@ public class ForceTarget : MonoBehaviour
         }
 
         if (newClosestEnemy != null)
-            u.ForceTarget(newClosestEnemy);
+            u.ForceTarget(newClosestEnemy, this);
     }
 
 }

@@ -33,8 +33,6 @@ public class WaveManager : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("Removing " + formationID);
-
 		formation.Remove(formation[formationID]);
 
 		for (int i = 0; i < formation.Count; i++)
@@ -101,11 +99,11 @@ public class WaveManager : MonoBehaviour
 		for (int i = 0; i < formation.Count; i++)
 		{
 			formation[i].unit.SetMoveTo(formation[i].unit.transform.position + movmentDirection * startingLerch);
+			formation[i].unit.StartCoroutine(formation[i].unit.ControlledUpdate());
 		}
 
 		transform.position += movmentDirection * startingLerch;
 		StartCoroutine(WaitToBeginWave());
-
 	}
 
 	private IEnumerator WaitToBeginWave()

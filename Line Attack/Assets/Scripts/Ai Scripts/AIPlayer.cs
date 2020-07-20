@@ -5,21 +5,26 @@ using UnityEngine;
 public class AIPlayer : Actor
 {
     [SerializeField] private GameObject prefFeild;
-    [SerializeField] GameObject testStampPrefab;
-    [SerializeField] Bounds bounds;
+    [SerializeField] List<GameObject> testStampPrefabs = new List<GameObject>();
+    [SerializeField] int spawnAmountPerWave = 8;
 
-	protected override void Setup()
+    Bounds bounds;
+
+    protected override void Setup()
 	{
 		base.Setup();
 
         bounds = GetChildRendererBounds(prefFeild);
+        SpawnTroopsOnWave();
 
-        for (int i = 0; i < 10;)
+        GameManager.gameManager.onStartWave += SpawnTroopsOnWave;
+    }
+
+    void SpawnTroopsOnWave()
+    {
+        for (int i = 0; i < spawnAmountPerWave; i++)
         {
-            if (SpawnObjectInBounds() == true)
-            {
-                i++;
-            }
+            SpawnObjectInBounds();
         }
     }
 
@@ -29,6 +34,8 @@ public class AIPlayer : Actor
         float posZ = Random.Range(bounds.min.z + 2f, bounds.max.z - 2f);
 
         Vector3 pos = new Vector3((int)posX +0.5f, 0.7f, (int)posZ - 0.5f);
+
+        GameObject testStampPrefab = testStampPrefabs[Random.Range(0, testStampPrefabs.Count)];
 
         GameObject newTestObject = Instantiate(testStampPrefab.gameObject, pos, Quaternion.LookRotation(-Vector3.forward, transform.up), stampHolder);
 

@@ -22,6 +22,7 @@ MonoBehaviour:
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 5
+  forceTarget: {fileID: 0}
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -31,9 +32,6 @@ MonoBehaviour:
   dammageAmount: 1
   findDelay: 0.2
   attacking: 0
-  flagPrefab: {fileID: 3405952899174899775, guid: e6fea1be3a3e67c49bcc5d70877c74e7,
-    type: 3}
-  reDis: 0
 --- !u!1 &1537511966422577127
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,8 +566,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8841841014688374403}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.45, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalPosition: {x: 0, y: 0.783, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628254087827516571}
   - {fileID: 2702570863485543273}
@@ -663,7 +661,7 @@ PrefabInstance:
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.018
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
@@ -693,17 +691,17 @@ PrefabInstance:
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119854, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
