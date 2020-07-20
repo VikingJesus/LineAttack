@@ -297,8 +297,8 @@ InputManager:
     m_Name: Rotation
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: escape
+    negativeButton: q
+    positiveButton: e
     altNegativeButton: 
     altPositiveButton: joystick button 1
     gravity: 1000

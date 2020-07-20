@@ -12,40 +12,41 @@ public class Unit : MonoBehaviour
 	public enum UnitState { Idle, Marching, WalkingTo, Attacking, Dead}
 	public UnitState currentState;
 
-	[SerializeField] int formationIndex;
-	[SerializeField] WaveManager waveManager;
+	[SerializeField] protected int formationIndex;
+	[SerializeField] protected WaveManager waveManager;
 	NavMeshAgent agent;
 	Animator anim;
 
 	[Header("Generic Properties")]
-	[SerializeField] int team;
-    [SerializeField] float health;
-    [SerializeField] float awarenessRange;
-    [SerializeField] float rotationSpeed;
-	[SerializeField] float stoppingDist = 0.4f;
-	[SerializeField] float unitcost;
+	[SerializeField] protected int team;
+    [SerializeField] protected float health;
+    [SerializeField] protected float awarenessRange;
+    [SerializeField] protected float rotationSpeed;
+	[SerializeField] protected float stoppingDist = 0.4f;
+	[SerializeField] protected float unitcost;
 
 	[Space]
 	[Header("Attack State Properties")]
-    [SerializeField] LayerMask awarenessLayer;
-	[SerializeField] float attackRange = 0.01f;
-    [SerializeField] float movementSpeed = 8;
-    [SerializeField] float attackRate = 1;
-    [SerializeField] float dammageAmount = 1;
+    [SerializeField] protected LayerMask awarenessLayer;
+	[SerializeField] protected float attackRange = 0.01f;
+    [SerializeField] protected float movementSpeed = 8;
+    [SerializeField] protected float attackRate = 1;
+    [SerializeField] protected float dammageAmount = 1;
 
 	[Range(1, 0.1f)]
 	[SerializeField] float findDelay = 0.25f;
 	bool lookingForTarget = false;
 	[SerializeField] bool attacking = false;
 	Unit target;
-	
+	public float reDis;
+
 	public virtual int GetTeam()
 	{
 		return team;
 	}
 
 	public virtual int GetFormationID() { return formationIndex; }
-	public void SetFormationID(int newID) { formationIndex = newID; }
+	public virtual void SetFormationID(int newID) { formationIndex = newID; }
 
 	public virtual void Setup(int _team, int _forIndex, WaveManager _waveManager)
 	{
@@ -118,7 +119,7 @@ public class Unit : MonoBehaviour
 		ChangeUnitState(UnitState.Dead);
 	}
 
-	public void Die()
+	public virtual void Die()
 	{
 		Destroy(gameObject);
 	}
@@ -132,7 +133,7 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	public void FindClosedEnemyCall()
+	public virtual void FindClosedEnemyCall()
 	{
 		Collider[] enemies;
 
@@ -241,8 +242,6 @@ public class Unit : MonoBehaviour
 				break;
 		}
 	}
-
-	public float reDis;
 
 	public void Update()
 	{
