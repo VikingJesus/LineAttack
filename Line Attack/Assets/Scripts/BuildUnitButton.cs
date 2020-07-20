@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
 public class BuildUnitButton : MonoBehaviour
 {
     
     [SerializeField] GameObject unitStampPrefab;
-    [SerializeField] Text unitCostText;
+    [SerializeField] TextMeshProUGUI unitCostText;
 
     float unitCost;
 

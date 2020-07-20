@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUIManager : MonoBehaviour
 {
-	[SerializeField] Text playerCurrnecy;
+	[SerializeField] TextMeshProUGUI playerCurrnecy;
 	[SerializeField] List<BuildUnitButton> buildUnitButtons = new List<BuildUnitButton>();
 
-	[SerializeField] Text currentSecondsLeftBeforNextWaveText;
+	[SerializeField] TextMeshProUGUI currentSecondsLeftBeforNextWaveText;
 
 	[SerializeField] GameObject errorEffectsGFX;
 	[SerializeField] GameObject functionalitywheel;
@@ -44,7 +45,6 @@ public class PlayerUIManager : MonoBehaviour
 			else
 				buildUnitButtons[i].GetComponent<Button>().interactable = false;
 		}
-
 	}
 
 	public void EnableErrorEffect()

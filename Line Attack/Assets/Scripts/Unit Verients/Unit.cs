@@ -116,17 +116,21 @@ public class Unit : MonoBehaviour
 		switch (currentState)
 		{
 			case UnitState.Idle:
+				waveManager.RemoveFromActive(this);
 				agent.enabled = false;
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 			case UnitState.Marching:
+				waveManager.RemoveFromActive(this);
 				transform.parent = waveManager.transform;
 				break;
 			case UnitState.WalkingTo:
+				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
 				transform.parent = null;
 				break;
 			case UnitState.Attacking:
+				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
 				transform.parent = null;
 				break;

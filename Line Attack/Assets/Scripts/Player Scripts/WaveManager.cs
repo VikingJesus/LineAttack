@@ -16,8 +16,11 @@ public class WaveManager : MonoBehaviour
 	[SerializeField] Vector3 endPos;
 
 	[SerializeField] private float fraction = 0;
-	public void AddToActiveUnitAgent(Unit u) { activeUnitAgent.Add(u); }
-	
+
+	public void AddToActiveUnitAgent(Unit u) { if (!activeUnitAgent.Contains(u)) { activeUnitAgent.Add(u); } }
+
+	public void RemoveFromActive(Unit u) { if (activeUnitAgent.Contains(u)) { activeUnitAgent.Remove(u); } }
+
 	public void AddUnitToWave(Unit _u, Vector3 _off, int _team)
 	{
 		FormationInfo f = new FormationInfo(_u, _off);
@@ -45,7 +48,6 @@ public class WaveManager : MonoBehaviour
 	{
 		if (waveMangerState == WaveMangerState.Moving)
 		{
-			Debug.Log("fraction");
 			fraction += movementSpeed * Time.deltaTime;
 			transform.position = Vector3.Lerp(startingPos, endPos, fraction);
 		}
