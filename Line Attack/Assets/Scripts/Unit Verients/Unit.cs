@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-	public enum UnitState { Idle, Marching, WalkingTo, Attacking }
+	public enum UnitState { Idle, Marching, WalkingTo, Attacking, Dead}
 	public UnitState currentState;
 
-	int formationIndex;
+	[SerializeField] int formationIndex;
 	NavMeshAgent agent;
-	WaveManager waveManager;
+	[SerializeField] WaveManager waveManager;
 
 	[Header("Generic Properties")]
 	[SerializeField] int team;
@@ -32,6 +34,7 @@ public class Unit : MonoBehaviour
 	[Range(1, 0.1f)]
 	[SerializeField] float findDelay = 0.25f;
 	bool lookingForTarget = false;
+	[SerializeField] bool attacking = false;
 	Unit target;
 	
 	public virtual int GetTeam()
@@ -40,6 +43,7 @@ public class Unit : MonoBehaviour
 	}
 
 	public virtual int GetFormationID() { return formationIndex; }
+	public void SetFormationID(int newID) { formationIndex = newID; }
 
 	public virtual void Setup(int _team, int _forIndex, WaveManager _waveManager)
 	{
@@ -60,6 +64,9 @@ public class Unit : MonoBehaviour
 
 	public virtual void SendBackToFormation()
 	{
+		if (waveManager == null)
+			waveManager = GetComponentInParent<WaveManager>();
+
 		SetMoveTo(waveManager.ReturnUnitToPositionInFormation(this));
 	}
 
@@ -86,6 +93,28 @@ public class Unit : MonoBehaviour
 			agent.destination = dest;
 		else
 			ChangeUnitState(UnitState.Idle);
+	}
+
+	public virtual void TakeDamage(float dam)
+	{
+		if (currentState != UnitState.Dead)
+		{
+			health -= dam;
+
+			if (health <= 0)
+				OnDie();
+		}
+	}
+
+	public virtual void OnDie()
+	{
+		ChangeUnitState(UnitState.Dead);
+		Die();
+	}
+
+	public void Die()
+	{
+		Destroy(gameObject);
 	}
 
 	public IEnumerator FindClosestEnemy()
@@ -127,7 +156,7 @@ public class Unit : MonoBehaviour
 			}
 			else
 			{
-				if (Vector3.Distance(transform.position, target.transform.position) > awarenessRange)
+				if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 0.4f))
 				{
 					SetTarget(null);
 				}
@@ -164,6 +193,16 @@ public class Unit : MonoBehaviour
 				agent.stoppingDistance = attackRange;
 				transform.parent = null;
 				break;
+
+			case UnitState.Dead:
+				waveManager.RemoveFromActive(this);
+				waveManager.RemoveFromFormation(formationIndex);
+
+				agent.enabled = false;
+				transform.parent = null;
+				attackRate = 0;
+				GetComponent<BoxCollider>().enabled = false;
+				break;
 		}
 	}
 
@@ -181,17 +220,39 @@ public class Unit : MonoBehaviour
 
 		if (currentState == UnitState.Attacking)
 		{
-			//TODO EnterDraw anim.
-			//Wait till its done.
-			if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
+			if (target != null)
 			{
-				agent.SetDestination(target.transform.position);
+				//TODO EnterDraw anim.
+				//Wait till its done.
+				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
+				{
+					agent.SetDestination(target.transform.position);
+				}
+				else
+				{
+					//Is close enough to attck, ATTACK
+					if (attacking == false)
+						StartCoroutine(AttackRate());
+				}
 			}
 			else
 			{
-				Debug.Log("Sucsses");
+				SendBackToFormation();
 			}
 		}
+	}
+
+	public IEnumerator AttackRate()
+	{
+		attacking = true;
+
+		while (currentState == UnitState.Attacking)
+		{
+			yield return new WaitForSeconds(attackRate);
+			target.TakeDamage(dammageAmount);
+		}
+
+		attacking = false;
 	}
 
 	private void OnEnable()

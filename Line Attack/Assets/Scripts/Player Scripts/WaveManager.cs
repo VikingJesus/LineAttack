@@ -20,6 +20,18 @@ public class WaveManager : MonoBehaviour
 	public void AddToActiveUnitAgent(Unit u) { if (!activeUnitAgent.Contains(u)) { activeUnitAgent.Add(u); } }
 
 	public void RemoveFromActive(Unit u) { if (activeUnitAgent.Contains(u)) { activeUnitAgent.Remove(u); } }
+	
+	public void RemoveFromFormation(int formationID)
+	{
+		Debug.Log("Removing " + formationID);
+
+		formation.Remove(formation[formationID]);
+
+		for (int i = 0; i < formation.Count; i++)
+		{
+			formation[i].unit.SetFormationID(i);
+		}
+	}
 
 	public void AddUnitToWave(Unit _u, Vector3 _off, int _team)
 	{
@@ -77,6 +89,7 @@ public class WaveManager : MonoBehaviour
 
 	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
 	{
+
 		return formation[unit.GetFormationID()].localOfSet + transform.position;
 	}
 

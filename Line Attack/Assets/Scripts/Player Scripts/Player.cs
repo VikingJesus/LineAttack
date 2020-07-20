@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
 	public static Player player;
 	int team = 1;
-	private enum PlayerState { Idle, Paused, BuildingStamp }
+	private enum PlayerState { Idle, Paused, BuildingStamp}
 	[SerializeField] private PlayerState currentPlayerState;
 
 	private PlayerUIManager playerUIManager;
