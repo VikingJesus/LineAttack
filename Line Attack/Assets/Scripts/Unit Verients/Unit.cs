@@ -9,21 +9,20 @@ public class Unit : MonoBehaviour
 	public enum UnitState { Idle, Marching, WalkingTo, Attacking }
 	public UnitState currentState;
 
-	[Header("Generic Properties")]
+	int formationIndex;
+	NavMeshAgent agent;
+	WaveManager waveManager;
 
+	[Header("Generic Properties")]
 	[SerializeField] int team;
-	[SerializeField] int formationIndex;
-    [SerializeField] WaveManager waveManager;
     [SerializeField] float health;
     [SerializeField] float awarenessRange;
     [SerializeField] float rotationSpeed;
-    [SerializeField] float stoppingDistance;
-    [SerializeField] float unitcost;
-
 	[SerializeField] float stoppingDist = 0.5f;
+	[SerializeField] float unitcost;
 
+	[Space]
 	[Header("Attack State Properties")]
-	[SerializeField] NavMeshAgent agent;
     [SerializeField] LayerMask awarenessLayer;
 	[SerializeField] float attackRange = 1;
     [SerializeField] float movementSpeed = 8;
@@ -32,8 +31,8 @@ public class Unit : MonoBehaviour
 
 	[Range(1, 0.1f)]
 	[SerializeField] float findDelay = 0.25f;
-	[SerializeField] bool lookingForTarget = false;
-	[SerializeField] Unit target;
+	bool lookingForTarget = false;
+	Unit target;
 	
 	public virtual int GetTeam()
 	{
@@ -54,18 +53,39 @@ public class Unit : MonoBehaviour
 		agent.stoppingDistance = stoppingDist;
 	}
 
+	private void Awake()
+	{
+		agent = GetComponent<NavMeshAgent>();
+	}
+
+	public virtual void SendBackToFormation()
+	{
+		SetMoveTo(waveManager.ReturnUnitToPositionInFormation(this));
+	}
+
 	public virtual void SetTarget(Unit _target)
 	{
-		target = _target;
-		agent.SetDestination(target.transform.position);
+		if (_target != null)
+		{
+			ChangeUnitState(UnitState.Attacking);
 
-		ChangeUnitState(UnitState.Attacking);
+			target = _target;
+			agent.SetDestination(target.transform.position);
+		}
+		else
+		{
+			SendBackToFormation();
+		}
 	}
 
 	public virtual void SetMoveTo(Vector3 dest)
 	{
-		agent.destination = dest;
 		ChangeUnitState(UnitState.WalkingTo);
+
+		if(agent.isOnNavMesh)
+			agent.destination = dest;
+		else
+			ChangeUnitState(UnitState.Idle);
 	}
 
 	public IEnumerator FindClosestEnemy()
@@ -74,10 +94,10 @@ public class Unit : MonoBehaviour
 
 		while (gameObject.activeSelf)
 		{
+			yield return new WaitForSeconds(findDelay);
+
 			if (target == null)
 			{
-				yield return new WaitForSeconds(findDelay);
-
 				float smallestDist = float.MaxValue;
 				Collider newClosestEnemy = null;
 
@@ -101,12 +121,18 @@ public class Unit : MonoBehaviour
 				}
 
 				if (newClosestEnemy != null)
-				{
 					SetTarget(newClosestEnemy.GetComponent<Unit>());
+				else
+					SetTarget(null);
+			}
+			else
+			{
+				if (Vector3.Distance(transform.position, target.transform.position) > awarenessRange)
+				{
+					SetTarget(null);
 				}
 			}
 		}
-
 	}
 
 	public virtual void ChangeUnitState(UnitState newUnitState)
@@ -118,6 +144,7 @@ public class Unit : MonoBehaviour
 			case UnitState.Idle:
 				waveManager.RemoveFromActive(this);
 				agent.enabled = false;
+				agent.stoppingDistance = stoppingDist;
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 			case UnitState.Marching:
@@ -127,11 +154,14 @@ public class Unit : MonoBehaviour
 			case UnitState.WalkingTo:
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
+				agent.stoppingDistance = stoppingDist;
 				transform.parent = null;
 				break;
 			case UnitState.Attacking:
+				Debug.Log("Entering Attack State");
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
+				agent.stoppingDistance = attackRange;
 				transform.parent = null;
 				break;
 		}
@@ -146,6 +176,20 @@ public class Unit : MonoBehaviour
 			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
 			{
 				ChangeUnitState(UnitState.Idle);
+			}
+		}
+
+		if (currentState == UnitState.Attacking)
+		{
+			//TODO EnterDraw anim.
+			//Wait till its done.
+			if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
+			{
+				agent.SetDestination(target.transform.position);
+			}
+			else
+			{
+				Debug.Log("Sucsses");
 			}
 		}
 	}
