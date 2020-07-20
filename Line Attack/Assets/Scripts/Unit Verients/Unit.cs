@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
 	[Space]
 	[Header("Attack State Properties")]
     [SerializeField] LayerMask awarenessLayer;
-	[SerializeField] float attackRange = 1;
+	[SerializeField] float attackRange = 0.01f;
     [SerializeField] float movementSpeed = 8;
     [SerializeField] float attackRate = 1;
     [SerializeField] float dammageAmount = 1;
@@ -78,6 +78,7 @@ public class Unit : MonoBehaviour
 		if (_target != null)
 		{
 			ChangeUnitState(UnitState.Attacking);
+			agent.isStopped = false;
 
 			target = _target;
 			agent.SetDestination(target.transform.position);
@@ -91,8 +92,9 @@ public class Unit : MonoBehaviour
 	public virtual void SetMoveTo(Vector3 dest)
 	{
 		ChangeUnitState(UnitState.WalkingTo);
+		agent.isStopped = false;
 
-		if(agent.isOnNavMesh)
+		if (agent.isOnNavMesh)
 			agent.destination = dest;
 		else
 			ChangeUnitState(UnitState.Idle);
@@ -163,8 +165,9 @@ public class Unit : MonoBehaviour
 		}
 		else
 		{
-			if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 0.4f))
+			if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 1f))
 			{
+				Debug.Log("Target is out of range, setting it to null");
 				SetTarget(null);
 			}
 		}
@@ -184,7 +187,6 @@ public class Unit : MonoBehaviour
 
 				waveManager.RemoveFromActive(this);
 				agent.enabled = false;
-				agent.stoppingDistance = stoppingDist;
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 
@@ -208,7 +210,6 @@ public class Unit : MonoBehaviour
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
-				agent.stoppingDistance = stoppingDist;
 				transform.parent = null;
 				break;
 
@@ -219,7 +220,6 @@ public class Unit : MonoBehaviour
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
-				agent.stoppingDistance = attackRange;
 				transform.parent = null;
 
 				break;
@@ -252,22 +252,15 @@ public class Unit : MonoBehaviour
 
 		if (currentState == UnitState.Attacking)
 		{
-			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Draw") == true)
-				agent.speed = 0;
-			else
-				agent.speed = movementSpeed;
-	
-
 			if (target != null)
 			{
 				//TODO EnterDraw anim.
 				//Wait till its done.
 				transform.LookAt(target.transform);
 
-				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange -.2f)
+				if (Vector3.Distance(target.transform.position, transform.position) > attackRange +.2f)
 				{
 					agent.SetDestination(target.transform.position);
-					agent.isStopped = false;
 				}
 				else
 				{
@@ -275,7 +268,6 @@ public class Unit : MonoBehaviour
 					//Is close enough to attck, ATTACK
 					if (attacking == false)
 						StartCoroutine(AttackRate());
-
 				}
 			}
 			else

@@ -89,8 +89,12 @@ public class WaveManager : MonoBehaviour
 
 	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
 	{
+		Vector3 pos = Vector3.zero;
 
-		Vector3 pos = formation[unit.GetFormationID()].localOfSet + transform.position;
+		if (formation[unit.GetFormationID()] != null)
+			pos = formation[unit.GetFormationID()].localOfSet + transform.position;
+		else
+			Debug.Log("Unit" + unit.name + "Dose not know were to go");
 
 		return pos;
 	}
