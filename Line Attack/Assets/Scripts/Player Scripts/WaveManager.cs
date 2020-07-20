@@ -90,7 +90,9 @@ public class WaveManager : MonoBehaviour
 	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
 	{
 
-		return formation[unit.GetFormationID()].localOfSet + transform.position;
+		Vector3 pos = formation[unit.GetFormationID()].localOfSet + transform.position;
+
+		return pos;
 	}
 
 	public IEnumerator WaitToBeginWave()

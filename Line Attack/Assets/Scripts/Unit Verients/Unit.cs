@@ -179,43 +179,49 @@ public class Unit : MonoBehaviour
 		{
 			case UnitState.Idle:
 
+				anim.SetBool("Idle", true);
 				anim.SetBool("Marching", false);
-				anim.SetBool("AttackMove", false);
 
 				waveManager.RemoveFromActive(this);
 				agent.enabled = false;
 				agent.stoppingDistance = stoppingDist;
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
+
 			case UnitState.Marching:
 
 				anim.SetBool("Marching", true);
+
+				anim.SetBool("Idle", false);
 				anim.SetBool("AttackMove", false);
 
 				waveManager.RemoveFromActive(this);
 				transform.parent = waveManager.transform;
+
 				break;
 
 			case UnitState.WalkingTo:
 
 				anim.SetBool("Marching", true);
-				anim.SetBool("AttackMove", true);
+				anim.SetBool("AttackMove", false);
+				anim.SetBool("Attack", false);
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
 				agent.stoppingDistance = stoppingDist;
 				transform.parent = null;
 				break;
+
 			case UnitState.Attacking:
 				//Anim stuff
-				anim.SetBool("Marching", false);
 				anim.SetBool("AttackMove", true);
+				anim.SetBool("Marching", false);
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
-				agent.speed = 0;
 				agent.stoppingDistance = attackRange;
 				transform.parent = null;
+
 				break;
 
 			case UnitState.Dead:
@@ -246,19 +252,26 @@ public class Unit : MonoBehaviour
 
 		if (currentState == UnitState.Attacking)
 		{
-			if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Draw"))
+			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Draw") == true)
+				agent.speed = 0;
+			else
 				agent.speed = movementSpeed;
+	
 
 			if (target != null)
 			{
 				//TODO EnterDraw anim.
 				//Wait till its done.
-				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
+				transform.LookAt(target.transform);
+
+				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange -.2f)
 				{
 					agent.SetDestination(target.transform.position);
+					agent.isStopped = false;
 				}
 				else
 				{
+					agent.isStopped = true;
 					//Is close enough to attck, ATTACK
 					if (attacking == false)
 						StartCoroutine(AttackRate());
@@ -281,7 +294,6 @@ public class Unit : MonoBehaviour
 	{
 		attacking = true;
 		anim.SetBool("Attack", true);
-		anim.SetBool("AttackMove", false);
 
 		while (currentState == UnitState.Attacking)
 		{
