@@ -22,7 +22,7 @@ public class Unit : MonoBehaviour
     [SerializeField] float health;
     [SerializeField] float awarenessRange;
     [SerializeField] float rotationSpeed;
-	[SerializeField] float stoppingDist = 0.5f;
+	[SerializeField] float stoppingDist = 0.4f;
 	[SerializeField] float unitcost;
 
 	[Space]
@@ -188,7 +188,9 @@ public class Unit : MonoBehaviour
 				anim.SetBool("Marching", false);
 
 				waveManager.RemoveFromActive(this);
+
 				agent.enabled = false;
+
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 
@@ -240,15 +242,21 @@ public class Unit : MonoBehaviour
 		}
 	}
 
+	public float reDis;
+
 	public void Update()
 	{
 		if (currentState == UnitState.WalkingTo)
 		{
 			float dist = agent.remainingDistance;
 
-			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.2f)
 			{
 				ChangeUnitState(UnitState.Idle);
+			}
+			else
+			{
+				reDis = agent.remainingDistance;
 			}
 		}
 

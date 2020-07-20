@@ -16,18 +16,12 @@ public class WaveManager : MonoBehaviour
 
 	[SerializeField] Vector3 startingPos;
 	[SerializeField] Vector3 endPos;
+	[SerializeField] float startingLerch = 30f;
 
 	[SerializeField] private float fraction = 0;
 	public Transform GetActiveUnitHolder()
 	{
 		return activeUnitHolder.transform;
-	}
-
-	public void Start()
-	{
-		activeUnitHolder = Instantiate(new GameObject("Unit Holder For Wave " + waveNumber));
-		activeUnitHolder.transform.position = Vector3.zero;
-		activeUnitHolder.transform.parent = null;
 	}
 
 	public void AddToActiveUnitAgent(Unit u) { if (!activeUnitAgent.Contains(u)) { activeUnitAgent.Add(u); } }
@@ -75,6 +69,13 @@ public class WaveManager : MonoBehaviour
 		}
 	}
 
+	public void Start()
+	{
+		activeUnitHolder = new GameObject("Unit Holder For Wave " + waveNumber);
+		activeUnitHolder.transform.position = Vector3.zero;
+		activeUnitHolder.transform.parent = null;
+	}
+
 	public void Update()
 	{
 		if (waveMangerState == WaveMangerState.Moving && activeUnitAgent.Count != formation.Count)
@@ -88,19 +89,18 @@ public class WaveManager : MonoBehaviour
 	{
 		for (int i = 0; i < formation.Count; i++)
 		{
-			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 15);
+			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 1);
 		}
 
-		transform.position += Vector3.forward * 15;
-
-		Invoke("RecallAllUnitsToPositions", 0.5f);
+		transform.position += Vector3.forward * startingLerch;
+		RecallAllUnitsToPositions();
 	}
 
 	public void RecallAllUnitsToPositions()
 	{
 		for (int i = 0; i < activeUnitAgent.Count; i++)
 		{
-			activeUnitAgent[i].SetMoveTo(formation[activeUnitAgent[i].GetFormationID()].localOfSet + transform.position);
+			activeUnitAgent[i].SendBackToFormation();
 		}
 
 		StartCoroutine(WaitToBeginWave());
@@ -120,12 +120,36 @@ public class WaveManager : MonoBehaviour
 
 	public IEnumerator WaitToBeginWave()
 	{
+		Debug.Log("Lauched Co");
 		while (activeUnitAgent.Count > 0)
 		{
-			yield return new WaitForSeconds(0.25f);
+			yield return new WaitForSeconds(0.1f);
+			Debug.Log("Updating Co");
+
+			if (activeUnitAgent.Count == 0)
+			{
+				ChangeWaveManagerState(WaveMangerState.Moving);
+			}
+
+			for (int i = 0; i < activeUnitAgent.Count; i++)
+			{
+				if (activeUnitAgent.Count < 10)
+				{
+					if (activeUnitAgent[i].reDis <= 0.5f)
+					{
+						SnapToPointAndReperent(activeUnitAgent[i].GetFormationID());
+					}
+				}
+			}
 		}
 
-		ChangeWaveManagerState(WaveMangerState.Moving);
+		Debug.Log("Exiting Co");
+
+
+		if (activeUnitAgent.Count == 0)
+		{
+			ChangeWaveManagerState(WaveMangerState.Moving);
+		}
 	}
 
 	public void SnapToPointAndReperent(int fi)

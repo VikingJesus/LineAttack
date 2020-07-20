@@ -73,11 +73,6 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			Debug.Log("Over Gameobject");
-		}
-
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Physics.Raycast(ray, out hit, 40f, raycastLayer);
