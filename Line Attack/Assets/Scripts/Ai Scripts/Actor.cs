@@ -15,6 +15,7 @@ public class Actor : MonoBehaviour
 	[SerializeField] protected WaveManager currentWaveManagerObject;
 	[SerializeField] protected Transform waveMangerSpawnPoint;
 
+	[SerializeField] protected ForceTarget forceTarget;
 	[SerializeField] protected Transform stampHolder;
 	[SerializeField] protected List<UnitStamp> activeStamps = new List<UnitStamp>();
 
@@ -34,6 +35,7 @@ public class Actor : MonoBehaviour
 	{
 		GameManager.gameManager.onStartWave += OnNextWave;
 
+		forceTarget.SetTeam(team);
 		SpawnNextWaveManager();
 
 		for (int i = 0; i < playerBases.Count; i++)

@@ -118,17 +118,6 @@ public class WaveManager : MonoBehaviour
 			{
 				ChangeWaveManagerState(WaveMangerState.Moving);
 			}
-
-			if (activeUnitAgent.Count < 10)
-			{
-				for (int i = 0; i < activeUnitAgent.Count; i++)
-				{
-					if (activeUnitAgent[i].reDis <= 0.5f)
-					{
-						SnapToPointAndReperent(activeUnitAgent[i].GetFormationID());
-					}
-				}
-			}
 		}
 
 		if (activeUnitAgent.Count == 0)

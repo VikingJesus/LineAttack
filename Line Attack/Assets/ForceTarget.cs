@@ -57,6 +57,9 @@ public class ForceTarget : MonoBehaviour
                 return;
             }
         }
+
+        if (newClosestEnemy != null)
+            u.ForceTarget(newClosestEnemy);
     }
 
 }

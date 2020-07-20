@@ -39,9 +39,7 @@ public class Unit : MonoBehaviour
 	[SerializeField] float findDelay = 0.25f;
 	bool lookingForTarget = false;
 	[SerializeField] bool attacking = false;
-	[SerializeField] GameObject flagPrefab;
 	Unit target;
-	public float reDis;
 
 	public virtual int GetTeam()
 	{
@@ -94,6 +92,18 @@ public class Unit : MonoBehaviour
 		else
 		{
 			SendBackToFormation();
+		}
+	}
+
+	public void ForceTarget(Unit _target)
+	{
+		if (_target != null)
+		{
+			ChangeUnitState(UnitState.Attacking);
+
+			target = _target;
+			agent.SetDestination(target.transform.position);
+			StopCoroutine(FindClosestEnemy());
 		}
 	}
 
@@ -254,13 +264,9 @@ public class Unit : MonoBehaviour
 			{
 				float dist = agent.remainingDistance;
 
-				if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.2f)
+				if (agent.remainingDistance <= 0.5f)
 				{
 					ChangeUnitState(UnitState.Idle);
-				}
-				else
-				{
-					reDis = agent.remainingDistance;
 				}
 			}
 		}
