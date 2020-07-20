@@ -9,11 +9,17 @@ public class GameManager : MonoBehaviour
 	[Header("Wave Veribles")]
 	[SerializeField] float timeBetweenWavesInSeconds = 60;
 	[SerializeField] float currentTime;
+	[SerializeField] int currentWave = 1;
 
 	[SerializeField] Player player;
 
 	public delegate void OnStartWave();
 	public OnStartWave onStartWave;
+
+	public int GetWaveNumber()
+	{
+		return currentWave;
+	}
 
 	public void Awake()
 	{
@@ -40,6 +46,8 @@ public class GameManager : MonoBehaviour
 				//VS Says this is not needed, it is.
 				if(onStartWave != null)
 					onStartWave();
+
+				currentWave += 1;
 
 				currentTime = timeBetweenWavesInSeconds;
 			}

@@ -9,6 +9,8 @@ public class WaveManager : MonoBehaviour
 
 	[SerializeField] private int waveNumber;
 	[SerializeField] float movementSpeed = 12f;
+
+	[SerializeField] private GameObject activeUnitHolder;
 	[SerializeField] private List<FormationInfo> formation = new List<FormationInfo>();
 	[SerializeField] private List<Unit> activeUnitAgent = new List<Unit>();
 
@@ -16,6 +18,17 @@ public class WaveManager : MonoBehaviour
 	[SerializeField] Vector3 endPos;
 
 	[SerializeField] private float fraction = 0;
+	public Transform GetActiveUnitHolder()
+	{
+		return activeUnitHolder.transform;
+	}
+
+	public void Start()
+	{
+		activeUnitHolder = Instantiate(new GameObject("Unit Holder For Wave " + waveNumber));
+		activeUnitHolder.transform.position = Vector3.zero;
+		activeUnitHolder.transform.parent = null;
+	}
 
 	public void AddToActiveUnitAgent(Unit u) { if (!activeUnitAgent.Contains(u)) { activeUnitAgent.Add(u); } }
 
@@ -30,6 +43,12 @@ public class WaveManager : MonoBehaviour
 		for (int i = 0; i < formation.Count; i++)
 		{
 			formation[i].unit.SetFormationID(i);
+		}
+
+		if (formation.Count == 0)
+		{
+			Destroy(activeUnitHolder);
+			Destroy(gameObject);
 		}
 	}
 

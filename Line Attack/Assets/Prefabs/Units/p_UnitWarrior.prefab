@@ -24,7 +24,7 @@ MonoBehaviour:
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
-  attackRange: 0.25
+  attackRange: 0.5
   movementSpeed: 2
   attackRate: 1
   dammageAmount: 1

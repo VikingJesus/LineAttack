@@ -73,6 +73,11 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			Debug.Log("Over Gameobject");
+		}
+
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Physics.Raycast(ray, out hit, 40f, raycastLayer);
@@ -212,6 +217,7 @@ public class Player : MonoBehaviour
 			currentWaveManagerObject.SendWave();
 
 		currentWaveManagerObject = Instantiate(waveMangerPrefab, waveMangerSpawnPoint.transform.position, waveMangerSpawnPoint.transform.rotation, null);
+		currentWaveManagerObject.name = "Wave Manager " + GameManager.gameManager.GetWaveNumber();
 	}
 
 	void OnDestroy()

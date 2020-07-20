@@ -49,5 +49,5 @@ MonoBehaviour:
   formation: []
   activeUnitAgent: []
   startingPos: {x: 0, y: 0, z: 0}
-  endPos: {x: 0, y: 0, z: 53}
+  endPos: {x: 0, y: 0, z: 180}
   fraction: 0

@@ -57,6 +57,8 @@ public class Unit : MonoBehaviour
 
 		agent.speed = movementSpeed;
 		agent.stoppingDistance = stoppingDist;
+
+		transform.parent = waveManager.GetActiveUnitHolder();
 	}
 
 	private void Awake()
@@ -210,7 +212,7 @@ public class Unit : MonoBehaviour
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
-				transform.parent = null;
+				transform.parent = waveManager.GetActiveUnitHolder();
 				break;
 
 			case UnitState.Attacking:
@@ -220,7 +222,7 @@ public class Unit : MonoBehaviour
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
-				transform.parent = null;
+				transform.parent = waveManager.GetActiveUnitHolder();
 
 				break;
 
@@ -231,7 +233,7 @@ public class Unit : MonoBehaviour
 				anim.SetTrigger("Death");
 
 				agent.enabled = false;
-				transform.parent = null;
+				transform.parent = waveManager.GetActiveUnitHolder();
 				attackRate = 0;
 				GetComponent<BoxCollider>().enabled = false;
 				break;
