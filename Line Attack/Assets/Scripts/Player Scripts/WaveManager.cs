@@ -1,57 +1,71 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WaveManager : MonoBehaviour
 {
 	public enum WaveMangerState {Idle, Moving}
 	public WaveMangerState waveMangerState;
 
-	[SerializeField] private int waveNumber;
 	[SerializeField] float movementSpeed = 12f;
+	[SerializeField] Actor owner;
 
 	[SerializeField] private GameObject activeUnitHolder;
 	[SerializeField] private List<FormationInfo> formation = new List<FormationInfo>();
 	[SerializeField] private List<Unit> activeUnitAgent = new List<Unit>();
 
-	[SerializeField] Vector3 startingPos;
-	[SerializeField] Vector3 endPos;
+	[SerializeField] Vector3 movmentDirection;
 	[SerializeField] float startingLerch = 30f;
 
-	[SerializeField] private float fraction = 0;
-	public Transform GetActiveUnitHolder()
-	{
-		return activeUnitHolder.transform;
-	}
+	#region ListHandlers
 
 	public void AddToActiveUnitAgent(Unit u) { if (!activeUnitAgent.Contains(u)) { activeUnitAgent.Add(u); } }
 
 	public void RemoveFromActive(Unit u) { if (activeUnitAgent.Contains(u)) { activeUnitAgent.Remove(u); } }
-	
+
 	public void RemoveFromFormation(int formationID)
 	{
+		if (formation.Count == 1)
+		{
+			Destroy(activeUnitHolder);
+			Destroy(gameObject);
+			return;
+		}
+
 		Debug.Log("Removing " + formationID);
 
 		formation.Remove(formation[formationID]);
 
 		for (int i = 0; i < formation.Count; i++)
 		{
-			formation[i].unit.SetFormationID(i);
-		}
-
-		if (formation.Count == 0)
-		{
-			Destroy(activeUnitHolder);
-			Destroy(gameObject);
+			if (formation[i].unit != null)
+				formation[i].unit.SetFormationID(i);
 		}
 	}
 
-	public void AddUnitToWave(Unit _u, Vector3 _off, int _team)
+	public void AddUnitToWave(Unit _u, Vector3 _off, int _team, Actor _owner)
 	{
 		FormationInfo f = new FormationInfo(_u, _off);
 		formation.Add(f);
 
-		_u.Setup(_team, formation.Count - 1, this);
+		_u.Setup(_owner, _team, formation.Count - 1, this);
+	}
+
+	#endregion
+
+	#region Getters
+
+	public Transform GetActiveUnitHolder()
+	{
+		return activeUnitHolder.transform;
+	}
+
+	#endregion
+
+	public void SetForwardDirection(Vector3 movementDirection)
+	{
+		movmentDirection = movementDirection;
 	}
 
 	public virtual void ChangeWaveManagerState(WaveMangerState newState)
@@ -61,27 +75,24 @@ public class WaveManager : MonoBehaviour
 		switch (waveMangerState)
 		{
 			case WaveMangerState.Idle:
-
 				break;
 			case WaveMangerState.Moving:
-				startingPos = transform.position;
 				break;
 		}
 	}
 
-	public void Start()
+	private void Start()
 	{
-		activeUnitHolder = new GameObject("Unit Holder For Wave " + waveNumber);
-		activeUnitHolder.transform.position = Vector3.zero;
+		activeUnitHolder = new GameObject(gameObject.name + " Unit Holder For Wave " + GameManager.gameManager.GetWaveNumber());
+		activeUnitHolder.transform.position = transform.position;
 		activeUnitHolder.transform.parent = null;
 	}
 
-	public void Update()
+	private void Update()
 	{
 		if (waveMangerState == WaveMangerState.Moving && activeUnitAgent.Count != formation.Count)
 		{
-			fraction += movementSpeed * Time.deltaTime;
-			transform.position = Vector3.Lerp(startingPos, endPos, fraction);
+			transform.position += (movmentDirection * movementSpeed) * Time.deltaTime;
 		}
 	}
 
@@ -89,51 +100,28 @@ public class WaveManager : MonoBehaviour
 	{
 		for (int i = 0; i < formation.Count; i++)
 		{
-			formation[i].unit.SetMoveTo(formation[i].unit.transform.position +  Vector3.forward * 1);
+			formation[i].unit.SetMoveTo(formation[i].unit.transform.position + movmentDirection * startingLerch);
 		}
 
-		transform.position += Vector3.forward * startingLerch;
-		RecallAllUnitsToPositions();
-	}
-
-	public void RecallAllUnitsToPositions()
-	{
-		for (int i = 0; i < activeUnitAgent.Count; i++)
-		{
-			activeUnitAgent[i].SendBackToFormation();
-		}
-
+		transform.position += movmentDirection * startingLerch;
 		StartCoroutine(WaitToBeginWave());
+
 	}
 
-	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
+	private IEnumerator WaitToBeginWave()
 	{
-		Vector3 pos = Vector3.zero;
-
-		if (formation[unit.GetFormationID()] != null)
-			pos = formation[unit.GetFormationID()].localOfSet + transform.position;
-		else
-			Debug.Log("Unit" + unit.name + "Dose not know were to go");
-
-		return pos;
-	}
-
-	public IEnumerator WaitToBeginWave()
-	{
-		Debug.Log("Lauched Co");
 		while (activeUnitAgent.Count > 0)
 		{
 			yield return new WaitForSeconds(0.1f);
-			Debug.Log("Updating Co");
 
 			if (activeUnitAgent.Count == 0)
 			{
 				ChangeWaveManagerState(WaveMangerState.Moving);
 			}
 
-			for (int i = 0; i < activeUnitAgent.Count; i++)
+			if (activeUnitAgent.Count < 10)
 			{
-				if (activeUnitAgent.Count < 10)
+				for (int i = 0; i < activeUnitAgent.Count; i++)
 				{
 					if (activeUnitAgent[i].reDis <= 0.5f)
 					{
@@ -142,9 +130,6 @@ public class WaveManager : MonoBehaviour
 				}
 			}
 		}
-
-		Debug.Log("Exiting Co");
-
 
 		if (activeUnitAgent.Count == 0)
 		{
@@ -156,8 +141,21 @@ public class WaveManager : MonoBehaviour
 	{
 		formation[fi].unit.ChangeUnitState(Unit.UnitState.Marching);
 		formation[fi].unit.transform.localPosition = formation[fi].localOfSet;
-		formation[fi].unit.transform.rotation = Quaternion.identity;
+		formation[fi].unit.transform.LookAt(-movmentDirection);
 	}
+
+	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
+	{
+		Vector3 pos = Vector3.zero;
+
+		if (formation[unit.GetFormationID()] != null)
+			pos = transform.TransformPoint(formation[unit.GetFormationID()].localOfSet);
+		else
+			Debug.Log("Unit" + unit.name + "Dose not know were to go");
+
+		return pos;
+	}
+
 }
 
 [System.Serializable]

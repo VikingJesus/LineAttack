@@ -44,12 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveMangerState: 0
-  waveNumber: 0
-  movementSpeed: 0.019
+  movementSpeed: 2
+  owner: {fileID: 0}
   activeUnitHolder: {fileID: 0}
   formation: []
   activeUnitAgent: []
-  startingPos: {x: 0, y: 0, z: 0}
-  endPos: {x: 0, y: 0, z: 180}
-  startingLerch: 30
-  fraction: 0
+  movmentDirection: {x: 0, y: 0, z: 0}
+  startingLerch: 25

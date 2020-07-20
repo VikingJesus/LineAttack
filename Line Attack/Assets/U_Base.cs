@@ -23,7 +23,8 @@ public class U_Base : Unit
 				break;
 
 			case UnitState.Dead:
-
+				owner.LostBase(this);
+				//SpawnDeath Effect Here
 				break;
 		}
 	}
@@ -43,20 +44,25 @@ public class U_Base : Unit
 		base.Die();
 	}
 
-	public override void Setup(int _team, int _forIndex, WaveManager _waveManager)
+	public override void Setup(Actor _owner, int _team, int _forIndex, WaveManager _waveManager)
 	{
 		team = _team;
+		owner = _owner;
 	}
 
-	public override void TakeDamage(float dam)
+	public override void TakeDamage(float dam, Actor damageDealer)
 	{
-		health -= dam;
+		if (currentState != UnitState.Dead)
+		{
+			health -= dam;
 
-		if (health <= 0)
-			OnDie();
+			if (health <= 0)
+			{
+				ChangeUnitState(UnitState.Dead);
+			}
+		}
+
 	}
-
-	public override void OnDie(){}
 
 	#region BlackedFunctions
 	public override void FindClosedEnemyCall(){}

@@ -3,22 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
 	public static Player player;
-	int team = 1;
-	private enum PlayerState { Idle, Paused, BuildingStamp}
-	[SerializeField] private PlayerState currentPlayerState;
 
 	private PlayerUIManager playerUIManager;
 	private GameObject currentStampPrefab;
-
-	[Header("Wave Veribles")]
-	[SerializeField] private WaveManager waveMangerPrefab;
-	[SerializeField] private WaveManager currentWaveManagerObject;
-	[SerializeField] private Transform waveMangerSpawnPoint;
-
-	[SerializeField] List<UnitStamp> activeStamps = new List<UnitStamp>();
 
 	[Header("Interaction Veribles")]
 	[SerializeField] private LayerMask raycastLayer;
@@ -27,13 +17,25 @@ public class Player : MonoBehaviour
 
 	[SerializeField] private UnitStamp currentlySelectedStamp;
 
-	[Header("Player Stats")]
-	[SerializeField] private float currentCurrency = 1000;
-
+	#region Getters
 	public PlayerUIManager GetPlayerUIManager() { return playerUIManager; }
-	public int GetTeam() { return team; }
 
-	private void ChangePlayerState(PlayerState newPlayerState)
+
+	#endregion
+
+	#region Setters
+	protected override void Setup()
+	{
+		playerUIManager = GetComponent<PlayerUIManager>();
+		playerUIManager.Updateplayercurrnecy(currentCurrency);
+		ClearSelectedStamp();
+
+		base.Setup();
+	}
+
+	#endregion
+
+	protected override void ChangePlayerState(PlayerState newPlayerState)
 	{
 		currentPlayerState = newPlayerState;
 
@@ -55,23 +57,12 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		player = this;
 	}
 
-	void Start()
-	{
-		GameManager.gameManager.onStartWave += OnNextWave;
-
-		playerUIManager = GetComponent<PlayerUIManager>();
-		playerUIManager.Updateplayercurrnecy(currentCurrency);
-
-		SpawnNextWaveManager();
-		ClearSelectedStamp();
-	}
-
-	void Update()
+	private void Update()
 	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -86,7 +77,7 @@ public class Player : MonoBehaviour
 					Vector3 placePos = new Vector3((int)hit.point.x + 0.5f, hit.point.y, (int)hit.point.z - 0.5f);
 					currentStampPrefab.transform.position = placePos;
 
-					if (Input.GetMouseButtonDown(0))
+					if (Input.GetMouseButton(0))
 					{
 						if (currentStampPrefab.GetComponent<UnitStamp>().IsSafeToPlace())
 						{
@@ -134,22 +125,15 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	void SelectNewStamp(UnitStamp us)
+	private void SelectNewStamp(UnitStamp us)
 	{
 		currentlySelectedStamp = us;
 		playerUIManager.SetFunctionalitywheelActiveState(true);
 	}
 
-	void ClearSelectedStamp()
+	private void PlaceStamp()
 	{
-		playerUIManager.SetFunctionalitywheelActiveState(false);
-		playerUIManager.UpdateFunctionalityWheelPos(Vector3.zero);
-		currentlySelectedStamp = null;
-	}
-
-	void PlaceStamp()
-	{
-		UnitStamp us = Instantiate(currentStampPrefab, currentStampPrefab.transform.position, currentStampPrefab.transform.rotation, null).GetComponent<UnitStamp>();
+		UnitStamp us = Instantiate(currentStampPrefab, currentStampPrefab.transform.position, currentStampPrefab.transform.rotation, stampHolder).GetComponent<UnitStamp>();
 		us.GetComponent<Collider>().enabled = true;
 
 		activeStamps.Add(us);
@@ -161,6 +145,13 @@ public class Player : MonoBehaviour
 		{
 			ChangePlayerState(PlayerState.Idle);
 		}
+	}
+
+	private void ClearSelectedStamp()
+	{
+		playerUIManager.SetFunctionalitywheelActiveState(false);
+		playerUIManager.UpdateFunctionalityWheelPos(Vector3.zero);
+		currentlySelectedStamp = null;
 	}
 
 	public void SellStampButtonPressed()
@@ -183,40 +174,10 @@ public class Player : MonoBehaviour
 		currentStampPrefab = Instantiate(stampPrefab);
 	}
 
-	public void ReciveResources(float _R)
+	public override void ReciveResources(float _R)
 	{
-		currentCurrency += _R;
+		base.ReciveResources(_R);
 		playerUIManager.Updateplayercurrnecy(currentCurrency);
 	}
 
-	void OnNextWave()
-	{
-		PoppulateNextWave();
-		SpawnNextWaveManager();
-	}
-
-	void PoppulateNextWave()
-	{
-		for (int i = 0; i < activeStamps.Count; i++)
-		{
-			Unit u = Instantiate(activeStamps[i].GetAttachedUnit(), currentWaveManagerObject.transform);
-			u.transform.localPosition = activeStamps[i].transform.position;
-
-			currentWaveManagerObject.AddUnitToWave(u, u.transform.localPosition, team);
-		}
-	}
-
-	void SpawnNextWaveManager()
-	{
-		if (currentWaveManagerObject != null)
-			currentWaveManagerObject.SendWave();
-
-		currentWaveManagerObject = Instantiate(waveMangerPrefab, waveMangerSpawnPoint.transform.position, waveMangerSpawnPoint.transform.rotation, null);
-		currentWaveManagerObject.name = "Wave Manager " + GameManager.gameManager.GetWaveNumber();
-	}
-
-	void OnDestroy()
-	{
-		GameManager.gameManager.onStartWave -= OnNextWave;
-	}
 }

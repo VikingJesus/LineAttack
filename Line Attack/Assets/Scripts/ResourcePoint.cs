@@ -5,7 +5,7 @@ using UnityEngine;
 public class ResourcePoint : MonoBehaviour
 {
     [SerializeField] int level = 0;
-    [SerializeField] Player playerOwner;
+    [SerializeField] Actor playerOwner;
     [Space]
     [SerializeField] float generationAmountLevel1 = 100;
     [SerializeField] float generationAmountLevel2 = 200;

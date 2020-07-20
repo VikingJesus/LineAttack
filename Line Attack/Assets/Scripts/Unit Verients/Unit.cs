@@ -9,11 +9,13 @@ using UnityEngine.ProBuilder;
 
 public class Unit : MonoBehaviour
 {
-	public enum UnitState { Idle, Marching, WalkingTo, Attacking, Dead}
+	public enum UnitState {Marching, WalkingTo, Attacking, Dead, Idle }
 	public UnitState currentState;
 
 	[SerializeField] protected int formationIndex;
 	[SerializeField] protected WaveManager waveManager;
+	[SerializeField] protected Actor owner;
+
 	NavMeshAgent agent;
 	Animator anim;
 
@@ -37,6 +39,7 @@ public class Unit : MonoBehaviour
 	[SerializeField] float findDelay = 0.25f;
 	bool lookingForTarget = false;
 	[SerializeField] bool attacking = false;
+	[SerializeField] GameObject flagPrefab;
 	Unit target;
 	public float reDis;
 
@@ -46,10 +49,12 @@ public class Unit : MonoBehaviour
 	}
 
 	public virtual int GetFormationID() { return formationIndex; }
+	
 	public virtual void SetFormationID(int newID) { formationIndex = newID; }
 
-	public virtual void Setup(int _team, int _forIndex, WaveManager _waveManager)
+	public virtual void Setup(Actor _owner, int _team, int _forIndex, WaveManager _waveManager)
 	{
+		owner = _owner;
 		team = _team;
 		waveManager = _waveManager;
 		formationIndex = _forIndex;
@@ -95,28 +100,23 @@ public class Unit : MonoBehaviour
 	public virtual void SetMoveTo(Vector3 dest)
 	{
 		ChangeUnitState(UnitState.WalkingTo);
-		agent.isStopped = false;
 
-		if (agent.isOnNavMesh)
-			agent.destination = dest;
-		else
-			ChangeUnitState(UnitState.Idle);
+		agent.destination = dest;
+		agent.isStopped = false;
 	}
 
-	public virtual void TakeDamage(float dam)
+	public virtual void TakeDamage(float dam, Actor damageDealer)
 	{
 		if (currentState != UnitState.Dead)
 		{
 			health -= dam;
 
-			if (health <= 0)
-				OnDie();
+			if (health <= 0) 
+			{
+				ChangeUnitState(UnitState.Dead);
+				damageDealer.ReciveResources(unitcost * 0.70f);
+			}
 		}
-	}
-
-	public virtual void OnDie()
-	{
-		ChangeUnitState(UnitState.Dead);
 	}
 
 	public virtual void Die()
@@ -174,7 +174,6 @@ public class Unit : MonoBehaviour
 				SetTarget(null);
 			}
 		}
-
 	}
 
 	public virtual void ChangeUnitState(UnitState newUnitState)
@@ -191,7 +190,7 @@ public class Unit : MonoBehaviour
 				waveManager.RemoveFromActive(this);
 
 				agent.enabled = false;
-
+				
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 
@@ -209,13 +208,13 @@ public class Unit : MonoBehaviour
 
 			case UnitState.WalkingTo:
 
+				transform.parent = waveManager.GetActiveUnitHolder();
+				waveManager.AddToActiveUnitAgent(this);
+				agent.enabled = true;
+
 				anim.SetBool("Marching", true);
 				anim.SetBool("AttackMove", false);
 				anim.SetBool("Attack", false);
-
-				waveManager.AddToActiveUnitAgent(this);
-				agent.enabled = true;
-				transform.parent = waveManager.GetActiveUnitHolder();
 				break;
 
 			case UnitState.Attacking:
@@ -230,8 +229,12 @@ public class Unit : MonoBehaviour
 				break;
 
 			case UnitState.Dead:
-				waveManager.RemoveFromActive(this);
-				waveManager.RemoveFromFormation(formationIndex);
+
+				if (waveManager != null)
+				{
+					waveManager.RemoveFromActive(this);
+					waveManager.RemoveFromFormation(formationIndex);
+				}
 
 				anim.SetTrigger("Death");
 
@@ -247,15 +250,18 @@ public class Unit : MonoBehaviour
 	{
 		if (currentState == UnitState.WalkingTo)
 		{
-			float dist = agent.remainingDistance;
+			if (agent.isOnNavMesh)
+			{
+				float dist = agent.remainingDistance;
 
-			if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.2f)
-			{
-				ChangeUnitState(UnitState.Idle);
-			}
-			else
-			{
-				reDis = agent.remainingDistance;
+				if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.2f)
+				{
+					ChangeUnitState(UnitState.Idle);
+				}
+				else
+				{
+					reDis = agent.remainingDistance;
+				}
 			}
 		}
 
@@ -299,7 +305,7 @@ public class Unit : MonoBehaviour
 		while (currentState == UnitState.Attacking)
 		{
 			yield return new WaitForSeconds(attackRate);
-			target.TakeDamage(dammageAmount);
+			target.TakeDamage(dammageAmount, owner);
 		}
 
 		anim.SetBool("Attack", false);
