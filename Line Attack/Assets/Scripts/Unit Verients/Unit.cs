@@ -12,8 +12,9 @@ public class Unit : MonoBehaviour
 	public UnitState currentState;
 
 	[SerializeField] int formationIndex;
-	NavMeshAgent agent;
 	[SerializeField] WaveManager waveManager;
+	NavMeshAgent agent;
+	Animator anim;
 
 	[Header("Generic Properties")]
 	[SerializeField] int team;
@@ -60,6 +61,7 @@ public class Unit : MonoBehaviour
 	private void Awake()
 	{
 		agent = GetComponent<NavMeshAgent>();
+		anim = GetComponent<Animator>();
 	}
 
 	public virtual void SendBackToFormation()
@@ -109,7 +111,6 @@ public class Unit : MonoBehaviour
 	public virtual void OnDie()
 	{
 		ChangeUnitState(UnitState.Dead);
-		Die();
 	}
 
 	public void Die()
@@ -171,25 +172,39 @@ public class Unit : MonoBehaviour
 		switch (currentState)
 		{
 			case UnitState.Idle:
+				anim.SetBool("Marching", false);
+				anim.SetBool("AttackMove", false);
+
 				waveManager.RemoveFromActive(this);
 				agent.enabled = false;
 				agent.stoppingDistance = stoppingDist;
 				waveManager.SnapToPointAndReperent(formationIndex);
 				break;
 			case UnitState.Marching:
+
+				anim.SetBool("Marching", true);
 				waveManager.RemoveFromActive(this);
 				transform.parent = waveManager.transform;
 				break;
+
 			case UnitState.WalkingTo:
+
+				anim.SetBool("Marching", true);
+				anim.SetBool("AttackMove", false);
+
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
 				agent.stoppingDistance = stoppingDist;
 				transform.parent = null;
 				break;
 			case UnitState.Attacking:
-				Debug.Log("Entering Attack State");
+				//Anim stuff
+				anim.SetBool("Marching", false);
+				anim.SetBool("AttackMove", true);
+
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
+				agent.speed = 0;
 				agent.stoppingDistance = attackRange;
 				transform.parent = null;
 				break;
@@ -197,6 +212,8 @@ public class Unit : MonoBehaviour
 			case UnitState.Dead:
 				waveManager.RemoveFromActive(this);
 				waveManager.RemoveFromFormation(formationIndex);
+
+				anim.SetTrigger("Death");
 
 				agent.enabled = false;
 				transform.parent = null;
@@ -220,8 +237,12 @@ public class Unit : MonoBehaviour
 
 		if (currentState == UnitState.Attacking)
 		{
+			if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Draw"))
+				agent.speed = movementSpeed;
+
 			if (target != null)
 			{
+
 				//TODO EnterDraw anim.
 				//Wait till its done.
 				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
@@ -245,6 +266,7 @@ public class Unit : MonoBehaviour
 	public IEnumerator AttackRate()
 	{
 		attacking = true;
+		anim.SetBool("Attack", true);
 
 		while (currentState == UnitState.Attacking)
 		{
@@ -252,6 +274,7 @@ public class Unit : MonoBehaviour
 			target.TakeDamage(dammageAmount);
 		}
 
+		anim.SetBool("Attack", false);
 		attacking = false;
 	}
 

@@ -13,15 +13,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  team: 0
   formationIndex: 0
   waveManager: {fileID: 0}
+  team: 0
   health: 10
   awarenessRange: 5
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 10
-  agent: {fileID: 8086511974943396239}
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -30,8 +29,7 @@ MonoBehaviour:
   attackRate: 1
   dammageAmount: 1
   findDelay: 0.25
-  lookingForTarget: 0
-  target: {fileID: 0}
+  attacking: 0
 --- !u!1001 &1319636824871923334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,7 +130,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 22100000, guid: 7932dc6289a03334492b0925b4575a9a,
+        type: 2}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -230,12 +229,6 @@ GameObject:
 --- !u!4 &1160419818706824416 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
-    type: 3}
-  m_PrefabInstance: {fileID: 1978946265825096776}
-  m_PrefabAsset: {fileID: 0}
---- !u!195 &8086511974943396239 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
     type: 3}
   m_PrefabInstance: {fileID: 1978946265825096776}
   m_PrefabAsset: {fileID: 0}
