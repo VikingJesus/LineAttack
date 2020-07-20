@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.ProBuilder;
 
 public class Unit : MonoBehaviour
 {
@@ -120,49 +121,54 @@ public class Unit : MonoBehaviour
 
 	public IEnumerator FindClosestEnemy()
 	{
-		Collider[] enemies;
-
 		while (gameObject.activeSelf)
 		{
 			yield return new WaitForSeconds(findDelay);
+			FindClosedEnemyCall();
+		}
+	}
 
-			if (target == null)
+	public void FindClosedEnemyCall()
+	{
+		Collider[] enemies;
+
+		if (target == null)
+		{
+			float smallestDist = float.MaxValue;
+			Collider newClosestEnemy = null;
+
+			enemies = Physics.OverlapSphere(transform.position, awarenessRange, awarenessLayer);
+
+			foreach (Collider enemyObj in enemies)
 			{
-				float smallestDist = float.MaxValue;
-				Collider newClosestEnemy = null;
-
-				enemies = Physics.OverlapSphere(transform.position, awarenessRange, awarenessLayer);
-
-				foreach (Collider enemyObj in enemies)
+				if (enemyObj.GetComponent<Unit>())
 				{
-					if (enemyObj.GetComponent<Unit>())
+					if (enemyObj.GetComponent<Unit>().GetTeam() != GetTeam())
 					{
-						if (enemyObj.GetComponent<Unit>().GetTeam() != GetTeam())
-						{
-							float dist = Vector3.SqrMagnitude(enemyObj.transform.position - transform.position);
+						float dist = Vector3.SqrMagnitude(enemyObj.transform.position - transform.position);
 
-							if (dist < smallestDist)
-							{
-								newClosestEnemy = enemyObj;
-								smallestDist = dist;
-							}
+						if (dist < smallestDist)
+						{
+							newClosestEnemy = enemyObj;
+							smallestDist = dist;
 						}
 					}
 				}
-
-				if (newClosestEnemy != null)
-					SetTarget(newClosestEnemy.GetComponent<Unit>());
-				else
-					SetTarget(null);
 			}
+
+			if (newClosestEnemy != null)
+				SetTarget(newClosestEnemy.GetComponent<Unit>());
 			else
+				SetTarget(null);
+		}
+		else
+		{
+			if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 0.4f))
 			{
-				if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 0.4f))
-				{
-					SetTarget(null);
-				}
+				SetTarget(null);
 			}
 		}
+
 	}
 
 	public virtual void ChangeUnitState(UnitState newUnitState)
@@ -172,6 +178,7 @@ public class Unit : MonoBehaviour
 		switch (currentState)
 		{
 			case UnitState.Idle:
+
 				anim.SetBool("Marching", false);
 				anim.SetBool("AttackMove", false);
 
@@ -183,6 +190,8 @@ public class Unit : MonoBehaviour
 			case UnitState.Marching:
 
 				anim.SetBool("Marching", true);
+				anim.SetBool("AttackMove", false);
+
 				waveManager.RemoveFromActive(this);
 				transform.parent = waveManager.transform;
 				break;
@@ -190,7 +199,7 @@ public class Unit : MonoBehaviour
 			case UnitState.WalkingTo:
 
 				anim.SetBool("Marching", true);
-				anim.SetBool("AttackMove", false);
+				anim.SetBool("AttackMove", true);
 
 				waveManager.AddToActiveUnitAgent(this);
 				agent.enabled = true;
@@ -242,7 +251,6 @@ public class Unit : MonoBehaviour
 
 			if (target != null)
 			{
-
 				//TODO EnterDraw anim.
 				//Wait till its done.
 				if (Vector3.Distance(target.transform.position, transform.position) <= attackRange)
@@ -254,11 +262,17 @@ public class Unit : MonoBehaviour
 					//Is close enough to attck, ATTACK
 					if (attacking == false)
 						StartCoroutine(AttackRate());
+
 				}
 			}
 			else
 			{
-				SendBackToFormation();
+				FindClosedEnemyCall();
+
+				if (target == null)
+				{
+					SendBackToFormation();
+				}
 			}
 		}
 	}
@@ -267,6 +281,7 @@ public class Unit : MonoBehaviour
 	{
 		attacking = true;
 		anim.SetBool("Attack", true);
+		anim.SetBool("AttackMove", false);
 
 		while (currentState == UnitState.Attacking)
 		{

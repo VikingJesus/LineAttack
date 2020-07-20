@@ -271,7 +271,7 @@ AnimatorStateMachine:
     m_Position: {x: -20, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1968565398710538534}
-    m_Position: {x: 700, y: -390, z: 0}
+    m_Position: {x: 680, y: -390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -211773505832380382}
     m_Position: {x: 460, y: 190, z: 0}
@@ -333,6 +333,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: Marching
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: AttackMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6200652267611819716}
