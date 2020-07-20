@@ -46,7 +46,7 @@ public class WaveManager : MonoBehaviour
 
 	public void Update()
 	{
-		if (waveMangerState == WaveMangerState.Moving)
+		if (waveMangerState == WaveMangerState.Moving && activeUnitAgent.Count != formation.Count)
 		{
 			fraction += movementSpeed * Time.deltaTime;
 			transform.position = Vector3.Lerp(startingPos, endPos, fraction);
@@ -73,6 +73,11 @@ public class WaveManager : MonoBehaviour
 		}
 
 		StartCoroutine(WaitToBeginWave());
+	}
+
+	public Vector3 ReturnUnitToPositionInFormation(Unit unit)
+	{
+		return formation[unit.GetFormationID()].localOfSet + transform.position;
 	}
 
 	public IEnumerator WaitToBeginWave()
