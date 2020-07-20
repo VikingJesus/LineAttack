@@ -30,6 +30,7 @@ MonoBehaviour:
   dammageAmount: 1
   findDelay: 0.25
   attacking: 0
+  reDis: 0
 --- !u!1001 &1319636824871923334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,17 +136,17 @@ PrefabInstance:
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.1879196
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.35114336
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 54.242897
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
@@ -186,6 +187,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119854, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}

@@ -178,15 +178,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  team: 0
   formationIndex: 0
   waveManager: {fileID: 0}
+  team: 0
   health: 10
   awarenessRange: 5
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 15
-  agent: {fileID: 5972789754360285244}
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -195,8 +194,8 @@ MonoBehaviour:
   attackRate: 1
   dammageAmount: 1
   findDelay: 0.25
-  lookingForTarget: 0
-  target: {fileID: 0}
+  attacking: 0
+  reDis: 0
 --- !u!1 &3919570292492401996
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,17 +608,17 @@ PrefabInstance:
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.6278992
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.35114336
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 53.287453
       objectReference: {fileID: 0}
     - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
@@ -661,6 +660,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 823035621890119854, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_Name
@@ -697,12 +711,6 @@ PrefabInstance:
 --- !u!4 &3656976514397418835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 823035621890119848, guid: 388f8e83307e26f4da8d6ead5c5b9917,
-    type: 3}
-  m_PrefabInstance: {fileID: 4155751850451824123}
-  m_PrefabAsset: {fileID: 0}
---- !u!195 &5972789754360285244 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
     type: 3}
   m_PrefabInstance: {fileID: 4155751850451824123}
   m_PrefabAsset: {fileID: 0}
