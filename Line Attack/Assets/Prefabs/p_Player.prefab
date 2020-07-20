@@ -1354,7 +1354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.9000244, y: -32.6}
+  m_AnchoredPosition: {x: -4.9001465, y: -32.599976}
   m_SizeDelta: {x: -1628.6001, y: 67.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &389051665838028095
@@ -2740,7 +2740,7 @@ GameObject:
   - component: {fileID: 9086963331722973037}
   - component: {fileID: 9086963331722973034}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: World Canvas Buy & sell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
