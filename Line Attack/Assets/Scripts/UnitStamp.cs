@@ -7,8 +7,6 @@ public class UnitStamp : MonoBehaviour
 	[SerializeField] Unit attachedUnit;
 
 	[Header("Grid Properties")]
-	[SerializeField] float unitCost = 10;
-
 	[SerializeField] int gridCost = 1;
 	[SerializeField] GridCostGFX gridCostGFX;
 
@@ -41,9 +39,9 @@ public class UnitStamp : MonoBehaviour
 
 	public float GetUnitCost()
 	{
-		return unitCost;
+		 return attachedUnit.GetUnitCost();
 	}
-	
+
 	public GridCostGFX GetGridCostGFX()
 	{
 		return gridCostGFX;

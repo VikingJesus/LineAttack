@@ -72,7 +72,10 @@ public class Actor : MonoBehaviour
 		playerBases.Remove(u_Base);
 
 		if (playerBases.Count == 0)
-			Debug.Log(gameObject.name + " Has lost the game");
+		{
+			GameManager.gameManager.AplayerHasLostALLItsBases(this);
+		}
+			
 	}
 
 	public virtual void ReciveResources(float _R)

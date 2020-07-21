@@ -51,6 +51,8 @@ public class Unit : MonoBehaviour
 
 	public virtual int GetFormationID() { return formationIndex; }
 
+	public virtual int GetUnitCost() { return (int)unitcost; }
+
 	#endregion
 
 	#region Setters

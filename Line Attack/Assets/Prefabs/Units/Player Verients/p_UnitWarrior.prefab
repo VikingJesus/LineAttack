@@ -17,8 +17,8 @@ MonoBehaviour:
   waveManager: {fileID: 0}
   owner: {fileID: 0}
   team: 0
-  health: 10
-  awarenessRange: 9
+  health: 30
+  awarenessRange: 12
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 5
@@ -26,10 +26,10 @@ MonoBehaviour:
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
-  attackRange: 0.95
+  attackRange: 1.5
   movementSpeed: 1.75
   attackRate: 0.6
-  dammageAmount: 1
+  dammageAmount: 1.75
   findDelay: 0.25
   attacking: 0
 --- !u!1 &1537511966422577127

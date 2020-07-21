@@ -6,7 +6,7 @@ public class AIPlayer : Actor
 {
     [SerializeField] private GameObject prefFeild;
     [SerializeField] List<GameObject> testStampPrefabs = new List<GameObject>();
-    [SerializeField] int spawnAmountPerWave = 8;
+    [SerializeField] int spawnAmountPerWave = 5;
 
     Bounds bounds;
 
@@ -35,7 +35,16 @@ public class AIPlayer : Actor
 
         Vector3 pos = new Vector3((int)posX +0.5f, 0.148f, (int)posZ - 0.5f);
 
-        GameObject testStampPrefab = testStampPrefabs[Random.Range(0, testStampPrefabs.Count)];
+        int max = 1;
+
+        if (GameManager.gameManager.GetWaveNumber() > 2 && GameManager.gameManager.GetWaveNumber() < 4)
+        {
+            max = 1;
+        }
+        else
+            max = 2;       
+
+        GameObject testStampPrefab = testStampPrefabs[Random.Range(0, max)];
 
         GameObject newTestObject = Instantiate(testStampPrefab.gameObject, pos, Quaternion.LookRotation(-Vector3.forward, transform.up), stampHolder);
 
