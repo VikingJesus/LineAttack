@@ -220,7 +220,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 010d7f89e35841a4a8bf31b4a60cd3e7, type: 2}
+  - {fileID: 2100000, guid: f765458600f69824aa26e157bbb131ff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -588,7 +588,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachedUnit: {fileID: 1419573008264889111, guid: 7528ff3b18b060340a4e42d097f80041,
     type: 3}
-  unitCost: 300
   gridCost: 2
   gridCostGFX: {fileID: 3874336442770102202}
   gridCostGFXIsColidingwith: []

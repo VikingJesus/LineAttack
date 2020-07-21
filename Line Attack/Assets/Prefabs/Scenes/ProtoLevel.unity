@@ -2752,7 +2752,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1e97cbf2538241b691aae8243b5fb10, type: 2}
+  - {fileID: 2100000, guid: 21124eeec156e8c41be0c6acedefae75, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2801,7 +2801,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-207536
+  m_Name: pb_Mesh-40884
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3020,6 +3020,12 @@ MonoBehaviour:
   - {fileID: 77261529}
   - {fileID: 279155134}
   team: 0
+--- !u!1 &1294490183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2380881494237912075, guid: 4a60bb95fc078654c91d879b5123de8e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1079644485}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1312617946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3171,7 +3177,7 @@ MonoBehaviour:
   player: {fileID: 716059152}
   aIplayer: {fileID: 1990758949}
   victoryScreen: {fileID: 1642423626}
-  lossScreen: {fileID: 0}
+  lossScreen: {fileID: 1294490183}
 --- !u!114 &1415705818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3394,7 +3400,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-435248
+  m_Name: pb_Mesh24730
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3639,7 +3645,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-397720
+  m_Name: pb_Mesh24756
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
