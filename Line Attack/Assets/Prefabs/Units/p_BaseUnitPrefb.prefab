@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4378468132708160382}
   - component: {fileID: -7237586893504664466}
   - component: {fileID: 1790774957885030113}
+  - component: {fileID: 2765453359970744442}
   m_Layer: 10
   m_Name: p_BaseUnitPrefb
   m_TagString: Untagged
@@ -126,7 +127,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 26
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -202,3 +203,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2765453359970744442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823035621890119854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf87fff60f2fd974f801ff6397a7e47f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawSwordClip: {fileID: 8300000, guid: 6bf47b3d1f8def047945bbb6728866f0, type: 3}
+  swordCollideClip: {fileID: 8300000, guid: c612881a5bf7a06408d8b25b3a68c370, type: 3}
+  drawFireClip: {fileID: 8300000, guid: fcce6e59bcb0b5e4d8a6aca7dea033f4, type: 3}
+  casteSpellClip: {fileID: 8300000, guid: 4db604d46a7b8ad41bdee891d8094d6a, type: 3}
