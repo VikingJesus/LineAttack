@@ -1433,7 +1433,7 @@ PrefabInstance:
     - target: {fileID: 3639885053807732647, guid: 69a37d6fd78e6474c9cbe179a4b05f34,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3639885053807732647, guid: 69a37d6fd78e6474c9cbe179a4b05f34,
         type: 3}
@@ -1818,7 +1818,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh35716
+  m_Name: pb_Mesh37776
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3232,7 +3232,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh35872
+  m_Name: pb_Mesh37932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11438,6 +11438,11 @@ PrefabInstance:
     - target: {fileID: 9086963330935283958, guid: da04530f53fdefe4b970ef6aeb2d00a1,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9086963331120750091, guid: da04530f53fdefe4b970ef6aeb2d00a1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
