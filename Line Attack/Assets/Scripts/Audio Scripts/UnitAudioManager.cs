@@ -12,7 +12,7 @@ public class UnitAudioManager : MonoBehaviour
 	public AudioClip drawFireClip;
 	public AudioClip casteSpellClip;
 
-	AudioSource audioSource;
+	public AudioSource audioSource;
 
 	void Start()
     {
@@ -21,21 +21,21 @@ public class UnitAudioManager : MonoBehaviour
 
 	public void DrawSwordSound()
 	{
-
+		audioSource.PlayOneShot(drawSwordClip);
 	}
 
 	public void SwordCollideSound()
 	{
-
+		audioSource.PlayOneShot(swordCollideClip);
 	}
 
 	public void DrawFireSound()
 	{
-
+		audioSource.PlayOneShot(drawFireClip);
 	}
 
 	public void CasteSpell()
 	{
-
+		audioSource.PlayOneShot(casteSpellClip);
 	}
 }
