@@ -33,7 +33,7 @@ public class AIPlayer : Actor
         float posX  = Random.Range(bounds.min.x + 2f, bounds.max.x - 2f);
         float posZ = Random.Range(bounds.min.z + 2f, bounds.max.z - 2f);
 
-        Vector3 pos = new Vector3((int)posX +0.5f, 0.2f, (int)posZ - 0.5f);
+        Vector3 pos = new Vector3((int)posX +0.5f, 0.148f, (int)posZ - 0.5f);
 
         GameObject testStampPrefab = testStampPrefabs[Random.Range(0, testStampPrefabs.Count)];
 

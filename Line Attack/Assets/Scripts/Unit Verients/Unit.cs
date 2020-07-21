@@ -42,13 +42,19 @@ public class Unit : MonoBehaviour
 	[SerializeField] bool attacking = false;
 	Unit target;
 
+	#region Getters
+
 	public virtual int GetTeam()
 	{
 		return team;
 	}
 
 	public virtual int GetFormationID() { return formationIndex; }
-	
+
+	#endregion
+
+	#region Setters
+
 	public virtual void SetFormationID(int newID) { formationIndex = newID; }
 
 	public virtual void Setup(Actor _owner, int _team, int _forIndex, WaveManager _waveManager)
@@ -66,20 +72,15 @@ public class Unit : MonoBehaviour
 		transform.parent = waveManager.GetActiveUnitHolder();
 	}
 
-	private void Awake()
+	public virtual void SetForceTarget(ForceTarget ft)
 	{
-		agent = GetComponent<NavMeshAgent>();
-		anim = GetComponent<Animator>();
+		StopCoroutine(FindClosestEnemy());
+
+		forceTarget = ft;
+		forceTarget.ForceTargetToClosestTarget(this);
+		attackRange = attackRange * +1.2f;
 	}
-
-	public virtual void SendBackToFormation()
-	{
-		if (waveManager == null)
-			waveManager = GetComponentInParent<WaveManager>();
-
-		SetMoveTo(waveManager.ReturnUnitToPositionInFormation(this));
-	}
-
+	
 	public virtual void SetTarget(Unit _target)
 	{
 		if (_target != null)
@@ -90,10 +91,29 @@ public class Unit : MonoBehaviour
 			target = _target;
 			agent.SetDestination(target.transform.position);
 		}
-		else
+		else if (currentState != UnitState.Marching)
 		{
 			SendBackToFormation();
 		}
+	}
+
+	#endregion
+
+	private void Awake()
+	{
+		agent = GetComponent<NavMeshAgent>();
+		anim = GetComponent<Animator>();
+	}
+
+	public virtual void SendBackToFormation()
+	{
+		if (currentState == UnitState.Marching)
+			return;
+
+		if (waveManager == null)
+			waveManager = GetComponentInParent<WaveManager>();
+
+		SetMoveTo(waveManager.ReturnUnitToPositionInFormation(this));
 	}
 
 	public void ForceTarget(Unit _target, ForceTarget _forceTarget)
@@ -154,6 +174,21 @@ public class Unit : MonoBehaviour
 
 	public virtual void FindClosedEnemyCall()
 	{
+		if (forceTarget != null)
+		{
+			if (target == null)
+				forceTarget.ForceTargetToClosestTarget(this);
+			else
+			{
+				if (Vector3.Distance(target.transform.position, transform.position) > attackRange -0.1f)
+					agent.SetDestination(target.transform.position);
+				else
+					agent.SetDestination(transform.position);
+			}
+
+			return;
+		}
+
 		Collider[] enemies;
 
 		if (target == null)
@@ -189,6 +224,7 @@ public class Unit : MonoBehaviour
 		{
 			if (Vector3.Distance(transform.position, target.transform.position) > (awarenessRange + 1f))
 			{
+				Debug.Log(target.name);
 				Debug.Log("Target is out of range, setting it to null");
 				SetTarget(null);
 			}
@@ -306,18 +342,11 @@ public class Unit : MonoBehaviour
 					}
 					else
 					{
-						if (forceTarget == null)
-						{
-							FindClosedEnemyCall();
+						FindClosedEnemyCall();
 
-							if (target == null)
-							{
-								SendBackToFormation();
-							}
-						}
-						else
+						if (target == null)
 						{
-							forceTarget.ForceTargetToClosestTarget(this);
+							SendBackToFormation();
 						}
 					}
 				}

@@ -128,7 +128,7 @@ public class WaveManager : MonoBehaviour
 	{
 		formation[fi].unit.ChangeUnitState(Unit.UnitState.Marching);
 		formation[fi].unit.transform.localPosition = formation[fi].localOfSet;
-		formation[fi].unit.transform.LookAt(-movmentDirection);
+		formation[fi].unit.transform.rotation = transform.rotation;
 	}
 
 	public Vector3 ReturnUnitToPositionInFormation(Unit unit)

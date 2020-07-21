@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-	protected enum PlayerState { Idle, Paused, BuildingStamp }
+	public enum PlayerState { Idle, Paused, BuildingStamp }
 	[SerializeField] protected int team = 1;
 
 	[SerializeField] protected PlayerState currentPlayerState;
@@ -46,13 +46,14 @@ public class Actor : MonoBehaviour
 
 	#endregion
 	
-	protected virtual void ChangePlayerState(PlayerState newPlayerState)
+	public virtual void ChangePlayerState(PlayerState newPlayerState)
 	{
 		currentPlayerState = newPlayerState;
 
 		switch (currentPlayerState)
 		{
 			case PlayerState.Idle:
+				StopAllCoroutines();
 				break;
 			case PlayerState.Paused:
 				break;

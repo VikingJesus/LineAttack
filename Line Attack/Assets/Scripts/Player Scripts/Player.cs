@@ -35,7 +35,7 @@ public class Player : Actor
 
 	#endregion
 
-	protected override void ChangePlayerState(PlayerState newPlayerState)
+	public override void ChangePlayerState(PlayerState newPlayerState)
 	{
 		currentPlayerState = newPlayerState;
 
@@ -45,6 +45,7 @@ public class Player : Actor
 		switch (currentPlayerState)
 		{
 			case PlayerState.Idle:
+				StopAllCoroutines();
 				Camera.main.cullingMask = cameraDefaultCullingLayer;
 				break;
 			case PlayerState.Paused:
@@ -77,15 +78,11 @@ public class Player : Actor
 					Vector3 placePos = new Vector3((int)hit.point.x + 0.5f, hit.point.y, (int)hit.point.z - 0.5f);
 					currentStampPrefab.transform.position = placePos;
 
-					if (Input.GetMouseButton(0))
+					if (Input.GetMouseButtonDown(0))
 					{
 						if (currentStampPrefab.GetComponent<UnitStamp>().IsSafeToPlace())
 						{
 							PlaceStamp();
-						}
-						else
-						{
-							playerUIManager.EnableErrorEffect();
 						}
 					}
 				}

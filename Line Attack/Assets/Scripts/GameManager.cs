@@ -12,9 +12,13 @@ public class GameManager : MonoBehaviour
 	[SerializeField] int currentWave = 1;
 
 	[SerializeField] Player player;
+	[SerializeField] AIPlayer aIplayer;
 
 	public delegate void OnStartWave();
 	public OnStartWave onStartWave;
+
+	public GameObject victoryScreen;
+	public GameObject lossScreen;
 
 	public int GetWaveNumber()
 	{
@@ -23,7 +27,7 @@ public class GameManager : MonoBehaviour
 
 	public void Awake()
 	{
-		gameManager = this;	
+		gameManager = this;
 	}
 
 	public void Start()
@@ -33,8 +37,8 @@ public class GameManager : MonoBehaviour
 	}
 
 	public IEnumerator WaveCounter()
-	{ 
-		while(gameObject.activeSelf)
+	{
+		while (gameObject.activeSelf)
 		{
 			yield return new WaitForSeconds(1);
 			currentTime -= 1;
@@ -44,7 +48,7 @@ public class GameManager : MonoBehaviour
 			if (currentTime <= 0)
 			{
 				//VS Says this is not needed, it is.
-				if(onStartWave != null)
+				if (onStartWave != null)
 					onStartWave();
 
 				currentWave += 1;
@@ -52,6 +56,24 @@ public class GameManager : MonoBehaviour
 				currentTime = timeBetweenWavesInSeconds;
 			}
 		}
+	}
+
+	public void AplayerHasLostALLItsBases(Actor actor)
+	{
+		aIplayer.ChangePlayerState(Actor.PlayerState.Idle);
+		player.ChangePlayerState(Actor.PlayerState.Idle);
+
+		if (actor is AIPlayer)
+		{
+			victoryScreen.SetActive(true);
+			//open win screen
+		}
+		else
+		{
+			lossScreen.SetActive(true);
+			//open Lose screen
+		}
+
 	}
 
 

@@ -21,7 +21,7 @@ public class ForceTarget : MonoBehaviour
         {
             if (other.GetComponent<Unit>().GetTeam() != team)
             {
-                ForceTargetToClosestTarget(other.GetComponent<Unit>());
+                other.GetComponent<Unit>().SetForceTarget(this);
             }
         }
 	}
@@ -30,7 +30,6 @@ public class ForceTarget : MonoBehaviour
     {
         if (targets.Count == 0)
             Destroy(gameObject);
-
 
         float smallestDist = float.MaxValue;
         Unit newClosestEnemy = null;
@@ -42,12 +41,17 @@ public class ForceTarget : MonoBehaviour
                 if (newClosestEnemy == null)
                 {
                     newClosestEnemy = targets[i];
-                    smallestDist = Vector3.Distance(targets[i].transform.position, newClosestEnemy.transform.position);
+                    smallestDist = Vector3.SqrMagnitude(targets[i].transform.position - u.transform.position);
                 }
-                else if (Vector3.Distance(targets[i].transform.position, newClosestEnemy.transform.position) < smallestDist)
+                else
                 {
-                    newClosestEnemy = targets[i];
-                    smallestDist = Vector3.Distance(targets[i].transform.position, newClosestEnemy.transform.position);
+                    float dist = Vector3.SqrMagnitude(targets[i].transform.position - u.transform.position);
+
+                    if (dist < smallestDist)
+                    {
+                        newClosestEnemy = targets[i];
+                        smallestDist = dist;
+                    }
                 }
             }
             else
