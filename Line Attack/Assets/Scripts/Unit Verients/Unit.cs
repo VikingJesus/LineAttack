@@ -304,6 +304,8 @@ public class Unit : MonoBehaviour
 
 	public IEnumerator ControlledUpdate()
 	{
+		yield return new WaitForSeconds(findDelay / 2);
+
 		while (gameObject.activeSelf)
 		{
 			yield return new WaitForSeconds(findDelay/2);
