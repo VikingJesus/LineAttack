@@ -219,3 +219,4 @@ MonoBehaviour:
   swordCollideClip: {fileID: 8300000, guid: c612881a5bf7a06408d8b25b3a68c370, type: 3}
   drawFireClip: {fileID: 8300000, guid: fcce6e59bcb0b5e4d8a6aca7dea033f4, type: 3}
   casteSpellClip: {fileID: 8300000, guid: 4db604d46a7b8ad41bdee891d8094d6a, type: 3}
+  audioSource: {fileID: 1790774957885030113}
