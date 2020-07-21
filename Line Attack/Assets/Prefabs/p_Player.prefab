@@ -3175,7 +3175,7 @@ MonoBehaviour:
     m_Bits: 256
   cameraDefaultCullingLayer:
     serializedVersion: 2
-    m_Bits: 14135
+    m_Bits: 30519
   gridCostGFXCulltingLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3383,7 +3383,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 14135
+    m_Bits: 30519
   m_RenderingPath: 3
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

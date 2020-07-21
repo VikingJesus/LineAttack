@@ -12740,11 +12740,6 @@ PrefabInstance:
       propertyPath: stampHolder
       value: 
       objectReference: {fileID: 1548908386}
-    - target: {fileID: 9086963330254936873, guid: da04530f53fdefe4b970ef6aeb2d00a1,
-        type: 3}
-      propertyPath: cameraDefaultCullingLayer.m_Bits
-      value: 30519
-      objectReference: {fileID: 0}
     - target: {fileID: 9086963330254936884, guid: da04530f53fdefe4b970ef6aeb2d00a1,
         type: 3}
       propertyPath: m_Name
@@ -12805,16 +12800,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9086963330494465098, guid: da04530f53fdefe4b970ef6aeb2d00a1,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 30519
-      objectReference: {fileID: 0}
-    - target: {fileID: 9086963330617616699, guid: da04530f53fdefe4b970ef6aeb2d00a1,
-        type: 3}
-      propertyPath: antialiasingMode
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 9086963330935283958, guid: da04530f53fdefe4b970ef6aeb2d00a1,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -12843,11 +12828,6 @@ PrefabInstance:
     - target: {fileID: 9086963330935283958, guid: da04530f53fdefe4b970ef6aeb2d00a1,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9086963331120750091, guid: da04530f53fdefe4b970ef6aeb2d00a1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
