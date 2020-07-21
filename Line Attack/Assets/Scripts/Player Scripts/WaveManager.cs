@@ -14,6 +14,7 @@ public class WaveManager : MonoBehaviour
 	[SerializeField] private GameObject activeUnitHolder;
 	[SerializeField] private List<FormationInfo> formation = new List<FormationInfo>();
 	[SerializeField] private List<Unit> activeUnitAgent = new List<Unit>();
+	[SerializeField] private AudioSource source;
 
 	[SerializeField] Vector3 movmentDirection;
 	[SerializeField] float startingLerch = 30f;
@@ -73,14 +74,18 @@ public class WaveManager : MonoBehaviour
 		switch (waveMangerState)
 		{
 			case WaveMangerState.Idle:
+				source.Stop();
 				break;
 			case WaveMangerState.Moving:
+				source.Play();
 				break;
 		}
 	}
 
 	private void Start()
 	{
+		source = GetComponent<AudioSource>();
+
 		activeUnitHolder = new GameObject(gameObject.name + " Unit Holder For Wave " + GameManager.gameManager.GetWaveNumber());
 		activeUnitHolder.transform.position = transform.position;
 		activeUnitHolder.transform.parent = null;
@@ -88,9 +93,13 @@ public class WaveManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (waveMangerState == WaveMangerState.Moving && activeUnitAgent.Count != formation.Count)
+		if (waveMangerState == WaveMangerState.Moving && activeUnitAgent.Count < formation.Count / 2)
 		{
 			transform.position += (movmentDirection * movementSpeed) * Time.deltaTime;
+		}
+		else
+		{
+			ChangeWaveManagerState(WaveMangerState.Idle);
 		}
 	}
 
@@ -129,6 +138,10 @@ public class WaveManager : MonoBehaviour
 		formation[fi].unit.ChangeUnitState(Unit.UnitState.Marching);
 		formation[fi].unit.transform.localPosition = formation[fi].localOfSet;
 		formation[fi].unit.transform.rotation = transform.rotation;
+
+		if(activeUnitAgent.Count < formation.Count / 2)
+			ChangeWaveManagerState(WaveMangerState.Moving);
+
 	}
 
 	public Vector3 ReturnUnitToPositionInFormation(Unit unit)

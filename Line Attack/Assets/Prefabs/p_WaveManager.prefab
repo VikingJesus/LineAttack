@@ -50,6 +50,7 @@ MonoBehaviour:
   activeUnitHolder: {fileID: 0}
   formation: []
   activeUnitAgent: []
+  source: {fileID: 6244444784904481570}
   movmentDirection: {x: 0, y: 0, z: 0}
   startingLerch: 25
 --- !u!82 &6244444784904481570
@@ -61,9 +62,10 @@ AudioSource:
   m_GameObject: {fileID: 2624555596266473218}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5448391238115404309, guid: 61eeb781d8b9e834d9d437784acceefd,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: f9934985865e0fc41be7021c6b56933f, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

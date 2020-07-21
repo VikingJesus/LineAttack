@@ -17,8 +17,8 @@ TagManager:
   - UnitStamp
   - Unit
   - GridSpaceRepresentation
-  - 
-  - 
+  - PostProcessTarget
+  - Player
   - 
   - 
   - 
