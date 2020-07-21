@@ -365,7 +365,9 @@ public class Unit : MonoBehaviour
 
 		while (currentState == UnitState.Attacking)
 		{
-			yield return new WaitForSeconds(attackRate);
+			yield return new WaitForSeconds(attackRate/2);
+			CreateAtatckEffect();
+			yield return new WaitForSeconds(attackRate/2);
 
 			if (target == null)
 			{
@@ -386,6 +388,11 @@ public class Unit : MonoBehaviour
 
 		anim.SetBool("Attack", false);
 		attacking = false;
+	}
+
+	public virtual void CreateAtatckEffect()
+	{ 
+	
 	}
 
 	private void OnEnable()
