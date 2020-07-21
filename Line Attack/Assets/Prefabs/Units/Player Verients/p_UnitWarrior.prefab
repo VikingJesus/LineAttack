@@ -18,7 +18,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   team: 0
   health: 10
-  awarenessRange: 5
+  awarenessRange: 9
   rotationSpeed: 1
   stoppingDist: 0.5
   unitcost: 5
@@ -26,11 +26,11 @@ MonoBehaviour:
   awarenessLayer:
     serializedVersion: 2
     m_Bits: 1024
-  attackRange: 0.5
-  movementSpeed: 2
-  attackRate: 1
+  attackRange: 0.95
+  movementSpeed: 1.75
+  attackRate: 0.6
   dammageAmount: 1
-  findDelay: 0.2
+  findDelay: 0.25
   attacking: 0
 --- !u!1 &1537511966422577127
 GameObject:
@@ -741,7 +741,12 @@ PrefabInstance:
     - target: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_Radius
-      value: 0.2
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

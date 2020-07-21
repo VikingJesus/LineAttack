@@ -86,7 +86,6 @@ public class Unit : MonoBehaviour
 		if (_target != null)
 		{
 			ChangeUnitState(UnitState.Attacking);
-			agent.isStopped = false;
 
 			target = _target;
 			agent.SetDestination(target.transform.position);
@@ -132,7 +131,7 @@ public class Unit : MonoBehaviour
 	{
 		ChangeUnitState(UnitState.WalkingTo);
 
-		agent.destination = dest;
+		agent.SetDestination(dest);
 		agent.isStopped = false;
 	}
 
@@ -328,7 +327,7 @@ public class Unit : MonoBehaviour
 						//Wait till its done.
 						transform.LookAt(target.transform);
 
-						if (Vector3.Distance(target.transform.position, transform.position) > attackRange + .2f)
+						if (Vector3.Distance(target.transform.position, transform.position) > attackRange - .72f)
 						{
 							agent.SetDestination(target.transform.position);
 						}
