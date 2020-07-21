@@ -165,38 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1419573008264889111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3656976514397418837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b4dd3d81565ce47acb3a7390e5369a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  formationIndex: 0
-  waveManager: {fileID: 0}
-  owner: {fileID: 0}
-  team: 0
-  health: 10
-  awarenessRange: 14
-  rotationSpeed: 1
-  stoppingDist: 0.5
-  unitcost: 20
-  forceTarget: {fileID: 0}
-  awarenessLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  attackRange: 10
-  movementSpeed: 1
-  attackRate: 1.2
-  dammageAmount: 12.5
-  findDelay: 0.25
-  attacking: 0
 --- !u!1 &3919570292492401996
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +244,38 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &1419573008264889111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656976514397418837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b4dd3d81565ce47acb3a7390e5369a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  formationIndex: 0
+  waveManager: {fileID: 0}
+  owner: {fileID: 0}
+  team: 0
+  health: 10
+  awarenessRange: 14
+  rotationSpeed: 1
+  stoppingDist: 0.9
+  unitcost: 20
+  forceTarget: {fileID: 0}
+  awarenessLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  attackRange: 10
+  movementSpeed: 1
+  attackRate: 1.2
+  dammageAmount: 12.5
+  findDelay: 0.25
+  attacking: 0
 --- !u!1 &4954490316748940383
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,7 +709,17 @@ PrefabInstance:
     - target: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
         type: 3}
       propertyPath: m_Radius
-      value: 0.35
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732591400405345735, guid: 388f8e83307e26f4da8d6ead5c5b9917,
+        type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -4643677671437828399, guid: 388f8e83307e26f4da8d6ead5c5b9917, type: 3}

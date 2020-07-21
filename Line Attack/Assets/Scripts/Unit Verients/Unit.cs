@@ -146,7 +146,7 @@ public class Unit : MonoBehaviour
 			if (health <= 0) 
 			{
 				ChangeUnitState(UnitState.Dead);
-				damageDealer.ReciveResources(unitcost * 0.70f);
+				damageDealer.ReciveResources(unitcost * 0.15f);
 			}
 		}
 	}
@@ -316,7 +316,7 @@ public class Unit : MonoBehaviour
 				{
 					if (agent.isOnNavMesh)
 					{
-						if (agent.remainingDistance <= 0.5f)
+						if (agent.remainingDistance <= 1f)
 						{
 							ChangeUnitState(UnitState.Idle);
 						}
@@ -337,7 +337,8 @@ public class Unit : MonoBehaviour
 						}
 						else
 						{
-							agent.isStopped = true;
+							agent.SetDestination(transform.position);
+
 							//Is close enough to attck, ATTACK
 							if (attacking == false)
 								StartCoroutine(AttackRate());
@@ -365,7 +366,22 @@ public class Unit : MonoBehaviour
 		while (currentState == UnitState.Attacking)
 		{
 			yield return new WaitForSeconds(attackRate);
-			target.TakeDamage(dammageAmount, owner);
+
+			if (target == null)
+			{
+				StopCoroutine(AttackRate());
+			}
+			else
+			{
+
+				if (Vector3.Distance(target.transform.position, transform.position) > attackRange - 0.02f)
+				{
+					if(agent.isOnNavMesh)
+						agent.SetDestination(target.transform.position);
+				}
+
+				target.TakeDamage(dammageAmount, owner);
+			}
 		}
 
 		anim.SetBool("Attack", false);
@@ -380,5 +396,6 @@ public class Unit : MonoBehaviour
 	private void OnDisable()
 	{
 		StopCoroutine(FindClosestEnemy());
+		StopCoroutine(AttackRate());
 	}
 }

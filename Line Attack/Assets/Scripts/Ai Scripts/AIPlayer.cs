@@ -35,14 +35,16 @@ public class AIPlayer : Actor
 
         Vector3 pos = new Vector3((int)posX +0.5f, 0.148f, (int)posZ - 0.5f);
 
-        int max = 1;
+        int max = 0;
 
-        if (GameManager.gameManager.GetWaveNumber() > 2 && GameManager.gameManager.GetWaveNumber() < 4)
+        if (GameManager.gameManager.GetWaveNumber() > 3)
         {
             max = 1;
         }
-        else
-            max = 2;       
+        else if (GameManager.gameManager.GetWaveNumber() > 6)
+        {
+            max = 2;
+        }
 
         GameObject testStampPrefab = testStampPrefabs[Random.Range(0, max)];
 

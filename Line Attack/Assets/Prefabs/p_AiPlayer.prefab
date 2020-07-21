@@ -58,7 +58,7 @@ MonoBehaviour:
   currentCurrency: 1000
   prefFeild: {fileID: 0}
   testStampPrefabs:
-  - {fileID: 7005100744723399485, guid: 2c7ddc7016d3c6e42bf30d8462dc924f, type: 3}
   - {fileID: 2140143653090031662, guid: 56aaa50beb0b7e84b8e6eeed4a29bb5b, type: 3}
+  - {fileID: 7005100744723399485, guid: 2c7ddc7016d3c6e42bf30d8462dc924f, type: 3}
   - {fileID: 3508163970409758828, guid: e807d82c5b356364392075122d3640bb, type: 3}
-  spawnAmountPerWave: 8
+  spawnAmountPerWave: 5
